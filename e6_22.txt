@@ -1,0 +1,26 @@
+INCLUDE console.inc
+.DATA
+	N=10
+	X DD N DUP(?)
+.CODE
+START:
+	ININT EAX; первое число
+	ININT EBX; второе число
+	MOV ECX, N
+	SUB ECX, 2
+	SUB EAX, EBX; первый разность 
+	MOV EDX, EAX; сохранили ее
+	MOV EAX, EBX; в первое число закинули второе
+L:	ININT EBX; вводим новое число
+	SUB EAX, EBX; из предыдущего новое
+	CMP EAX, EDX; сравниваем
+	JNE L1
+	MOV EAX, EBX; прерзаписываем старое число
+	LOOP L
+	JMP L3
+L1:	OUTSTR 'NO'
+	JMP E
+L3:	OUTSTR 'YES'
+E:	
+EXIT
+END START

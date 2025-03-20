@@ -1,0 +1,27 @@
+SUM MACRO X
+    LOCAL E
+    LOCAL FL
+    PUSH EBX 
+    E = 1
+    FL = 0
+    MOV EAX, 0  
+    FOR R, <X>
+        IFNB <R>
+            IF TYPE(R) EQ  DWORD   
+                MOV EBX, R  
+            ELSE 
+                MOVZX EBX, R 
+            ENDIF
+	    IF FL EQ 1
+            REPEAT E
+                ADD EAX, EBX 
+            ENDM  
+	    ELSE
+		ADD EAX, EBX 
+	    ENDIF
+        ENDIF 
+        E = E + 1
+        FL = 1 - FL
+    ENDM 
+    POP EBX 
+ENDM

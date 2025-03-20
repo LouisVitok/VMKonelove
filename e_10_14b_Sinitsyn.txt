@@ -1,0 +1,69 @@
+INCLUDE console.inc
+.DATA
+.CODE
+START:
+	PUSH '#'
+	INCHAR BL 
+	CMP BL, 'M'
+	JE E
+	CMP BL, 'm'
+	JE E
+	OUTCHAR BL
+	JMP E5
+E:
+	MOV ECX, 0
+	MOVZX EAX, BL
+	INCHAR BL
+L:
+	INCHAR BL
+	CMP BL, ','
+	JE L
+	CMP BL, 'M'
+	JE L1
+	CMP BL, 'm'
+	JE L1
+	JMP L2
+L1:
+	PUSH EAX
+	PUSH ECX 
+	JMP E
+L2:
+	CMP BL, ')'
+	JE E1
+	SUB BL, 48
+	MOVZX EBX, BL
+	PUSH EBX
+	INC ECX
+	JMP L
+E1:
+	POP ESI
+E2:
+	DEC ECX
+	CMP ECX, 0
+	JNE E3
+			POP ECX
+			CMP ECX, '#'
+			JNE E4
+			OUTU ESI
+			JMP E5
+		E4:
+			POP EAX
+			PUSH ESI
+			INC ECX
+			JMP L
+	E3:
+		POP EDX
+		CMP EAX, 'M'
+		JNE E6
+			CMP ESI, EDX
+			JAE E2
+			MOV ESI, EDX
+			JMP E2
+		E6:
+			CMP ESI, EDX
+			JBE E2
+			MOV ESI, EDX
+			JMP E2	
+E5:
+EXIT
+END START

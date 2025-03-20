@@ -1,0 +1,7 @@
+	MOV ECX, N
+L:	CMP A[2*ECX - 2], 0
+	JG L1
+	LOOP L
+E:	JMP U2
+L1:	MOV A[2*ECX - 2], -1
+U2:

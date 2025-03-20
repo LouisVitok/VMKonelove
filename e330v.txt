@@ -1,0 +1,12 @@
+SUB D1, 48
+SUB D2, 48
+SUB D3, 48
+mov al, 100
+mul D1
+mov bx, ax
+mov al, 10
+mul D2
+add bx, ax
+movzx ax, D3
+add bx, ax
+mov N, bx

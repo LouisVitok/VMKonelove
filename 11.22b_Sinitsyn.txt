@@ -1,0 +1,29 @@
+PROC1 PROC                            
+        PUSH EBX              
+        PUSH ECX
+        MOV EAX, 0           
+        MOV EBX, 0
+        MOV ECX, 0
+        CALL MAIN_PROC       
+        POP ECX              
+        POP EBX
+        RET
+PROC1 ENDP
+
+MAIN_PROC PROC              
+	PUSH EBX
+        INCHAR BL
+        CMP BL, ' '           
+        JE L2
+        CALL MAIN_PROC       
+        CMP BL, '9'          
+        JA L
+        SUB BL, '0'
+        JMP L1
+L:	SUB BL, 'A' - 10      
+L1:   	SHL EBX, CL          
+      	OR EAX, EBX           
+      	ADD ECX, 4            
+L2: 	POP EBX               
+        RET           
+MAIN_PROC ENDP

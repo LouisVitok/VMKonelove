@@ -1,0 +1,25 @@
+INCLUDE console.inc
+.DATA
+.CODE
+START:	MOV EBX, 0
+	MOV AL, '_'
+	MOV AH, '_'
+L:
+	MOV AL, AH
+	INCHAR AH
+	CMP AH, ','
+	JE L1
+	CMP AH, '.'
+	JE L3
+	JMP L
+L1:	CMP AL, 'Z'
+	JE L2
+	JMP L
+L2:	ADD EBX, 1
+	JMP L
+L3:	CMP AL, 'Z'
+	JNE E
+	ADD EBX, 1
+E:	OUTU EBX
+EXIT
+END START

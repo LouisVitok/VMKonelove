@@ -1,0 +1,10 @@
+COUNT MACRO P1,P2,P3,P4,P5,P6,P7
+    LOCAL E 
+    E = 0  
+    FOR R,<P1,P2,P3,P4,P5,P6,P7> 
+        IFNB <R>
+            E = E + 1    
+        ENDIF 
+    ENDM  
+    OUTU E 
+ENDM 

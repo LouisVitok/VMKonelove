@@ -1,0 +1,28 @@
+INCLUDE console.inc
+.DATA
+	N=10
+	Time Record h:4, m:6, s:6; время в часах, минутах и секундах 
+	T Time N dup(<>)
+.CODE
+START:	
+	MOV ESI, 1
+	MOV EBP, 0
+L:	CMP ESI, N
+	JA E
+	ININT AX
+	CMP AX, 7
+	JB L3
+L1:	SHL AX, 12
+	MOV WORD PTR T[2*ESI-2], AX
+	ININT AX
+L2:	SHL AX, 6
+	ADD WORD PTR T[2*ESI-2], AX
+	ININT AX
+	ADD WORD PTR T[2*ESI-2], AX
+	INC ESI
+	JMP L
+L3:	INC EBP
+	JMP L1
+E:	OUTU EBP
+EXIT
+END START

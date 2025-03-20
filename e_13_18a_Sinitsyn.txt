@@ -1,0 +1,7 @@
+ZERO MACRO X,T
+    IFIDN <T>,<LAST>
+        MOV X[SIZE X - TYPE X], 0
+    ELSEIFIDN <T>,<FIRST>
+        MOV X, 0
+    ENDIF 
+ENDM 

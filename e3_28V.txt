@@ -1,0 +1,8 @@
+mov edx, 0
+mov eax, T
+mov ebx, 60
+div ebx
+mov S, dl
+div bl
+mov M, ah
+mov H, al

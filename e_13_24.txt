@@ -1,0 +1,10 @@
+COUNT MACRO P1,P2,P3,P4,P5,P6,P7
+    LOCAL QNT 
+    QNT = 0  
+    FOR R,<P1,P2,P3,P4,P5,P6,P7> 
+        IFNB <R>
+            QNT = QNT + 1    
+        ENDIF 
+    ENDM  
+    OUTU QNT 
+ENDM 

@@ -1,0 +1,23 @@
+MOV ECX, N
+MOV EBX, 0
+
+MOV EAX, GR.AGE
+SUB ECX, 1
+JECXZ L2
+stud:	
+	CI: 
+		CMP GR[EBX].AGE, EAX
+		JA good
+		LOOP stud
+	JMP bad
+	good:
+		MOV EAX, GR[EBX].AGE
+		MOV ESI, EBX
+	bad:
+		ADD EBX, 25
+		LOOP stud
+L2:	MOV ECX, 20
+	MOV EAX, 0
+L1:	OUTCHAR GR[ESI][EAX]
+	ADD EAX, 1
+	LOOP L1
