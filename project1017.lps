@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="project1017.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="20" Y="2"/>
+        <UsageCount Value="28"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="unit1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="10">
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="45" Column="16"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="3" Column="12"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="4" Column="9"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="19" Column="11"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="24" Column="11"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="48" Column="19"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="52" Column="24"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="6" Column="8"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="12" Column="26"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="19" Column="22" TopLine="3"/>
+      </Position>
+      <Position>
+        <Filename Value="project1017.lpr"/>
+        <Caret Line="35" Column="14" TopLine="9"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

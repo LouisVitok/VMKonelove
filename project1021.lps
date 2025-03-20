@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="project1021.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="14" Y="6"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="8">
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="5" Column="31"/>
+      </Position>
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="3" Column="36"/>
+      </Position>
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="4" Column="29"/>
+      </Position>
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="10" Column="20"/>
+      </Position>
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="4" Column="29"/>
+      </Position>
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="3" Column="16"/>
+      </Position>
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="12" Column="66"/>
+      </Position>
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="5" Column="19"/>
+      </Position>
+      <Position>
+        <Filename Value="project1021.lpr"/>
+        <Caret Line="3" Column="40"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
