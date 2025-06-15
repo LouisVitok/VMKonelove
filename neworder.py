@@ -37,8 +37,8 @@ class Table:
                     pressed = pygame.mouse.get_pressed()
                     pos = pygame.mouse.get_pos()
                     if pressed[0]:
-                        for i in range(16):
-                            elem = self.array[i]
+                        for i in range(1, 17):
+                            elem = self.array[i - 1]
                             if abs(elem[0]) + abs(elem[1]) == 0:
                                 continue
                             else:
