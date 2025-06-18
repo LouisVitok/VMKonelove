@@ -25,7 +25,198 @@ class Table:
         self.screen = screen
         self.window_size = window_size
         self.array = None
+        self.table_size = list()
         self.start()
+
+    def f_line_chousen(self, k, x_0, y_0, x):
+        return k * (x - x_0) + y_0
+
+    def x_f_line_chousen(self, k, x_0, y_0, y):
+        return (y - y_0) / k + x_0
+
+    def find_perese(self, k, num, deltax, deltay):
+        cur_closest = [1000, 1000]
+        second_dot_possible = [0, 0]
+        if k != 'x=0' and k != 'y=0':
+            for i in range(len(self.array)):
+                if i == num:
+                    continue
+                else:
+                    if self.array[i][3]:
+                        x_meet = (self.array[i][0] / k + self.array[i][1] + k * self.array[num][0] - self.array[num][1]) / (
+                                    k + 1 / k)
+                        y_meet = self.f_line_chousen(k, self.array[num][0], self.array[num][1], x_meet)
+                        if sqrt((x_meet - self.array[i][0]) ** 2 + (y_meet - self.array[i][1]) ** 2) <= self.ball_size // 2:
+                            if sqrt((self.array[i][0] - self.array[num][0]) ** 2 + (
+                                    self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
+                                    (cur_closest[0] - self.array[num][0]) ** 2 + (
+                                            cur_closest[1] - self.array[num][1]) ** 2):
+                                second_dot_possible = [x_meet, y_meet]
+                                cur_closest = [self.array[i][0], self.array[i][1]]
+                        else:
+                            continue
+        else:
+            if k == 'x=0':
+                if deltay != 0:
+                    x_meet0 = self.array[num][0]
+                    y_meet0 = self.table_size[1+pow(-1, deltay < 0)]
+                    second_dot_possible = [x_meet0, y_meet0]
+                    for i in range(len(self.array)):
+                        if i == num:
+                            continue
+                        else:
+                            if self.array[i][3]:
+                                if deltay > 0:
+                                    if self.array[i][1] - self.array[num][1] > 0 and self.array[i][0] > self.array[num][0] - self.ball_size // 2 and self.array[i][0] < self.array[num][0] + self.ball_size // 2:
+                                        x_meet = self.array[num][0]
+                                        y_meet = self.array[i][1]
+
+                                        if self.array[i][1] - self.array[num][1] > 0 and sqrt((self.array[i][0] - self.array[num][0]) ** 2 + (
+                                            self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
+                                        (cur_closest[0] - self.array[num][0]) ** 2 + (
+                                                cur_closest[1] - self.array[num][1]) ** 2):
+                                            second_dot_possible = [x_meet, y_meet]
+                                            cur_closest = [self.array[i][0], self.array[i][1]]
+                                if deltay < 0:
+                                    if self.array[i][1] - self.array[num][1]< 0 and self.array[i][0] > self.array[num][
+                                        0] - self.ball_size // 2 and self.array[i][0] < self.array[num][
+                                        0] + self.ball_size // 2:
+                                        x_meet = self.array[num][0]
+                                        y_meet = self.array[i][1]
+
+                                        if self.array[i][1] - self.array[num][1] < 0 and sqrt(
+                                            (self.array[i][0] - self.array[num][0]) ** 2 + (
+                                                    self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
+                                        (cur_closest[0] - self.array[num][0]) ** 2 + (
+                                                cur_closest[1] - self.array[num][1]) ** 2):
+                                            second_dot_possible = [x_meet, y_meet]
+                                            cur_closest = [self.array[i][0], self.array[i][1]]
+                            else:
+                                continue
+
+                else:
+                    second_dot_possible = [self.array[num][0], self.array[num][1]]
+            elif k == 'y=0':
+                for i in range(len(self.array)):
+                    if i == num:
+                        continue
+                    else:
+                        if self.array[i][3]:
+                            if deltax > 0:
+                                if self.array[i][0] - self.array[num][0] > 0 and self.array[i][1] > self.array[num][
+                                    1] - self.ball_size // 2 and self.array[i][1] < self.array[num][
+                                    1] + self.ball_size // 2:
+                                    x_meet = self.array[num][0]
+                                    y_meet = self.array[i][1]
+
+                                if self.array[i][0] - self.array[num][0] > 0 and sqrt(
+                                        (self.array[i][0] - self.array[num][0]) ** 2 + (
+                                                self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
+                                    (cur_closest[0] - self.array[num][0]) ** 2 + (
+                                            cur_closest[1] - self.array[num][1]) ** 2):
+                                    second_dot_possible = [x_meet, y_meet]
+                                    cur_closest = [self.array[i][0], self.array[i][1]]
+                            if deltay < 0:
+                                if self.array[i][0] - self.array[num][0] < 0 and self.array[i][1] > self.array[num][
+                                    1] - self.ball_size // 2 and self.array[i][1] < self.array[num][
+                                    1] + self.ball_size // 2:
+                                    x_meet = self.array[num][0]
+                                    y_meet = self.array[i][1]
+
+                                if self.array[i][0] - self.array[num][0] < 0 and sqrt(
+                                        (self.array[i][0] - self.array[num][0]) ** 2 + (
+                                                self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
+                                    (cur_closest[0] - self.array[num][0]) ** 2 + (
+                                            cur_closest[1] - self.array[num][1]) ** 2):
+                                    second_dot_possible = [x_meet, y_meet]
+                                    cur_closest = [self.array[i][0], self.array[i][1]]
+                        else:
+                            continue
+        return second_dot_possible
+
+
+
+    def chousen(self, num):
+        pressed = pygame.mouse.get_pressed()
+        while not pressed[0]:
+            for i in pygame.event.get():
+                if i.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                # if i.type == pygame.MOUSEBUTTONDOWN:
+                    # pressed = pygame.mouse.get_pressed()
+            pos = pygame.mouse.get_pos()
+            print(pos)
+            self.dr_table()
+            deltax = - (pos[0] - self.array[num][0])
+            deltay = - (pos[1] - self.array[num][1])
+            sin_d = deltay / sqrt(pow(deltay, 2) + pow(deltax, 2))
+            cos_d = deltax / sqrt(pow(deltay, 2) + pow(deltax, 2))
+            first_dot = [self.array[num][0] + cos_d * self.ball_size // 2, self.array[num][1] + sin_d * self.ball_size // 2]
+            if deltax == 0:
+                k = 'x=0'
+            if deltay == 0:
+                k = 'y=0'
+            if deltax != 0:
+                k = deltay / deltax
+            second_dot_possible = self.find_perese(k, num, deltax, deltay)
+            if second_dot_possible == [0, 0]:
+                if deltax > 0 and deltay > 0:
+                    perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])
+                    if perese_with_2_bort > self.table_size[2]:
+                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) , self.table_size[2]]
+                    else:
+                        second_dot = [self.table_size[1], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])]
+                elif deltax > 0 and deltay < 0:
+                    perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                             self.table_size[1])
+                    if perese_with_2_bort < self.table_size[0]:
+                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) , self.table_size[0]]
+                    else:
+                        second_dot = [self.table_size[1], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])]
+                elif deltax < 0 and deltay > 0:
+                    perese_with_4_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                             self.table_size[3])
+                    if perese_with_4_bort > self.table_size[2]:
+                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) , self.table_size[2]]
+                    else:
+                        second_dot = [self.table_size[3], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[3])]
+                elif deltax < 0 and deltay < 0:
+                    perese_with_4_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                             self.table_size[3])
+                    if perese_with_4_bort < self.table_size[0]:
+                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[0]) , self.table_size[0]]
+                    else:
+                        second_dot = [self.table_size[3], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[3])]
+                elif deltax == 0 or deltay == 0:
+                    if deltay == 0:
+                        if deltax > 0:
+                            second_dot = [self.table_size[1], self.array[num][1]]
+                        elif deltax < 0:
+                            second_dot = [self.table_size[3], self.array[num][1]]
+                        else:
+                            second_dot = second_dot_possible
+                    elif deltax == 0:
+                        if deltay > 0:
+                            second_dot = [self.array[num][0], self.table_size[2]]
+                        elif deltay < 0:
+                            second_dot = [self.array[num][0], self.table_size[0]]
+                        else:
+                            second_dot = second_dot_possible
+            else:
+                second_dot = second_dot_possible
+            print(100, num, self.array[num])
+            pygame.draw.aaline(self.screen, (0, 0, 255), first_dot, second_dot)
+            pygame.display.flip()
+            print(101, num,  first_dot, second_dot)
+            pressed = pygame.mouse.get_pressed()
+        print(124, num)
+
+
+
+
+
+
 
     def game(self):
         while 1:
@@ -36,49 +227,52 @@ class Table:
                 if i.type == pygame.MOUSEBUTTONDOWN:
                     pressed = pygame.mouse.get_pressed()
                     pos = pygame.mouse.get_pos()
-                    if pressed[0]:
+                    if pressed[2]:
                         for i in range(1, 17):
                             elem = self.array[i - 1]
                             if abs(elem[0]) + abs(elem[1]) == 0:
                                 continue
                             else:
                                 if pos[0] <= elem[0] + self.ball_size // 2 and elem[0] - self.ball_size // 2 <= pos[0] and pos[1] <= elem[1] + self.ball_size // 2 and elem[1] - self.ball_size // 2 <= pos[1]:
-                                    xelem = elem[0] + random.randint(-100, 100)
-                                    yelem = elem[1] + random.randint(-100, 100)
-                                    match i:
-                                        case 1:
-                                            self.b_1.koo_in(xelem, yelem)
-                                        case 2:
-                                            self.b_2.koo_in(xelem, yelem)
-                                        case 3:
-                                            self.b_3.koo_in(xelem, yelem)
-                                        case 4:
-                                            self.b_4.koo_in(xelem, yelem)
-                                        case 5:
-                                            self.b_5.koo_in(xelem, yelem)
-                                        case 6:
-                                            self.b_6.koo_in(xelem, yelem)
-                                        case 7:
-                                            self.b_7.koo_in(xelem, yelem)
-                                        case 8:
-                                            self.b_8.koo_in(xelem, yelem)
-                                        case 9:
-                                            self.b_9.koo_in(xelem, yelem)
-                                        case 10:
-                                            self.b_10.koo_in(xelem, yelem)
-                                        case 11:
-                                            self.b_11.koo_in(xelem, yelem)
-                                        case 12:
-                                            self.b_12.koo_in(xelem, yelem)
-                                        case 13:
-                                            self.b_13.koo_in(xelem, yelem)
-                                        case 14:
-                                            self.b_14.koo_in(xelem, yelem)
-                                        case 15:
-                                            self.b_15.koo_in(xelem, yelem)
-                                        case 16:
-                                            self.b_16.koo_in(xelem, yelem)
-                                    self.dr_table()
+                                    self.chousen(i - 1)
+                                    # while not pressed[0]:
+
+                                    # xelem = elem[0] + random.randint(-100, 100)
+                                    # yelem = elem[1] + random.randint(-100, 100)
+                                    # match i:
+                                    #     case 1:
+                                    #         self.b_1.koo_in(xelem, yelem)
+                                    #     case 2:
+                                    #         self.b_2.koo_in(xelem, yelem)
+                                    #     case 3:
+                                    #         self.b_3.koo_in(xelem, yelem)
+                                    #     case 4:
+                                    #         self.b_4.koo_in(xelem, yelem)
+                                    #     case 5:
+                                    #         self.b_5.koo_in(xelem, yelem)
+                                    #     case 6:
+                                    #         self.b_6.koo_in(xelem, yelem)
+                                    #     case 7:
+                                    #         self.b_7.koo_in(xelem, yelem)
+                                    #     case 8:
+                                    #         self.b_8.koo_in(xelem, yelem)
+                                    #     case 9:
+                                    #         self.b_9.koo_in(xelem, yelem)
+                                    #     case 10:
+                                    #         self.b_10.koo_in(xelem, yelem)
+                                    #     case 11:
+                                    #         self.b_11.koo_in(xelem, yelem)
+                                    #     case 12:
+                                    #         self.b_12.koo_in(xelem, yelem)
+                                    #     case 13:
+                                    #         self.b_13.koo_in(xelem, yelem)
+                                    #     case 14:
+                                    #         self.b_14.koo_in(xelem, yelem)
+                                    #     case 15:
+                                    #         self.b_15.koo_in(xelem, yelem)
+                                    #     case 16:
+                                    #         self.b_16.koo_in(xelem, yelem)
+                                    # self.dr_table()
 
     def start(self):
         sq = min(self.window_size[0], self.window_size[1])
@@ -213,6 +407,7 @@ class Table:
             pygame.draw.circle(self.screen, (12, 186, 22), (e + sq // 8, 2.5 * (sq // 8) + 3 * (sq // 8)), self.ball_size + 10)
 
             pygame.draw.rect(self.screen, (0, 255, 0), (e + sq // 8, 2.5 * (sq // 8), 6 * (sq // 8), 3 * (sq // 8)))
+            self.table_size = [ 2.5 * (sq // 8), e + sq // 8 + 6 * (sq // 8) , 2.5 * (sq // 8) + 3 * (sq // 8), e + sq // 8]
         else:
             e = self.window_size[1] // 2 - r
             pygame.draw.rect(self.screen, (12, 186, 22),
@@ -233,6 +428,8 @@ class Table:
                                (sq // 8, e + 2.5 * (sq // 8) + 3 * (sq // 8)), self.ball_size + 10)
 
             pygame.draw.rect(self.screen, (0, 255, 0), (sq // 8, e + 2.5 * (sq // 8), 6 * (sq // 8), 3 * (sq // 8)))
+            self.table_size = [e + 2.5 * (sq // 8), sq // 8 + 6 * (sq // 8) , e + 2.5 * (sq // 8) + 3 * (sq // 8),
+                               (sq // 8)]
         self.array = self.comm_ball()
         pygame.display.flip()
 
@@ -258,28 +455,14 @@ class Ball:
 
     def koo(self):
         if self.state:
-            return (self.x, self.y, self.color)
+            return (self.x, self.y, self.color, self.state)
         else:
-            return (0,0, self.color)
+            return (0,0, self.color, self.state)
 
     def koo_in(self, x, y):
         self.x = x
         self.y = y
 
-    def move(self):
-        while 1:
-            for i in pygame.event.get():
-                if i.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                if i.type == pygame.MOUSEBUTTONDOWN:
-                    pressed = pygame.mouse.get_pressed()
-                    pos = pygame.mouse.get_pos()
-                    if pressed[0]:
-                        if pos[0] <= self.x + self.size // 2 and self.x - self.size // 2 <= pos[0] and pos[1] <= self.y + self.size // 2 and self.y - self.size // 2 <= pos[1]:
-                            self.x += random.randint(-100, 100)
-                            self.y += random.randint(-100, 100)
-                            # dr_table(self.screen, self.window_size[0], self.window_size[1], self.size)
 
 
 if __name__ == '__main__':
