@@ -1,11 +1,13 @@
 import pygame
-from math import pi, sqrt
+from math import pi, sqrt, atan, sin, cos
 import random
+import time
 
 FPS = 60
 
 class Table:
     def __init__(self, window_size, screen):
+        self.b_16 = None
         self.b_15 = None
         self.b_14 = None
         self.b_13 = None
@@ -21,6 +23,7 @@ class Table:
         self.b_2 = None
         self.b_1 = None
         self.b_5 = None
+        # self.balls = [self.b_1, self.b_2, self.b_3, self.b_4, self.b_5, self.b_6, self.b_7, self.b_8, self.b_9, self.b_10, self.b_11, self.b_12, self.b_13, self.b_14, self.b_15, self.b_16]
         self.sq = min(window_size[0], window_size[1])
         self.ball_size = (6 * (sq // 8)) // 52
         self.screen = screen
@@ -77,9 +80,9 @@ class Table:
         else:
             if k == 'x=0':
                 if deltay != 0:
-                    x_meet0 = self.array[num][0]
-                    y_meet0 = self.table_size[1+pow(-1, deltay < 0)]
-                    second_dot_possible = [x_meet0, y_meet0]
+                    # x_meet0 = self.array[num][0]
+                    # y_meet0 = self.table_size[1+pow(-1, deltay < 0)]
+                    # second_dot_possible = [x_meet0, y_meet0]
                     for i in range(len(self.array)):
                         if i == num:
                             continue
@@ -114,6 +117,9 @@ class Table:
                     second_dot_possible = [self.array[num][0], self.array[num][1]]
                 return second_dot_possible
             elif k == 'y=0':
+                # x_meet0 = self.table_size[2 + pow(-1, deltax >= 0)]
+                # y_meet0 = self.array[num][0]
+                # second_dot_possible = [x_meet0, y_meet0]
                 for i in range(len(self.array)):
                     if i == num:
                         continue
@@ -123,30 +129,27 @@ class Table:
                                 if self.array[i][0] - self.array[num][0] > 0 and self.array[i][1] > self.array[num][
                                     1] - self.ball_size // 2 and self.array[i][1] < self.array[num][
                                     1] + self.ball_size // 2:
-                                    x_meet = self.array[num][0]
-                                    y_meet = self.array[i][1]
+                                    print(i)
+                                    x_meet = self.array[i][0]
+                                    y_meet = self.array[num][1]
 
-                                if self.array[i][0] - self.array[num][0] > 0 and sqrt(
-                                        (self.array[i][0] - self.array[num][0]) ** 2 + (
-                                                self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
-                                    (cur_closest[0] - self.array[num][0]) ** 2 + (
-                                            cur_closest[1] - self.array[num][1]) ** 2):
-                                    second_dot_possible = [x_meet, y_meet]
-                                    cur_closest = [self.array[i][0], self.array[i][1]]
-                            if deltay < 0:
+                                    if sqrt((self.array[i][0] - self.array[num][0]) ** 2 + (self.array[i][1] - self.array[num][1]) ** 2) < sqrt((cur_closest[0] - self.array[num][0]) ** 2 + (cur_closest[1] - self.array[num][1]) ** 2):
+                                        second_dot_possible = [x_meet, y_meet]
+                                        cur_closest = [self.array[i][0], self.array[i][1]]
+                            if deltax < 0:
                                 if self.array[i][0] - self.array[num][0] < 0 and self.array[i][1] > self.array[num][
                                     1] - self.ball_size // 2 and self.array[i][1] < self.array[num][
                                     1] + self.ball_size // 2:
-                                    x_meet = self.array[num][0]
-                                    y_meet = self.array[i][1]
+                                    x_meet = self.array[i][0]
+                                    y_meet = self.array[num][1]
 
-                                if self.array[i][0] - self.array[num][0] < 0 and sqrt(
+                                    if self.array[i][0] - self.array[num][0] < 0 and sqrt(
                                         (self.array[i][0] - self.array[num][0]) ** 2 + (
                                                 self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
                                     (cur_closest[0] - self.array[num][0]) ** 2 + (
                                             cur_closest[1] - self.array[num][1]) ** 2):
-                                    second_dot_possible = [x_meet, y_meet]
-                                    cur_closest = [self.array[i][0], self.array[i][1]]
+                                        second_dot_possible = [x_meet, y_meet]
+                                        cur_closest = [self.array[i][0], self.array[i][1]]
                         else:
                             continue
         return second_dot_possible
@@ -156,6 +159,8 @@ class Table:
     def chousen(self, num):
         pressed = pygame.mouse.get_pressed()
         while not pressed[0]:
+            # if pressed[2]:
+            #     return
             for i in pygame.event.get():
                 if i.type == pygame.QUIT:
                     pygame.quit()
@@ -164,16 +169,18 @@ class Table:
                     # pressed = pygame.mouse.get_pressed()
             pos = pygame.mouse.get_pos()
             self.dr_table()
+            pygame.draw.circle(self.screen, (225, 225, 0), [self.array[num][0], self.array[num][1]], 4 * self.ball_size, 5)
             deltax = - (pos[0] - self.array[num][0])
             deltay = - (pos[1] - self.array[num][1])
-            sin_d = deltay / sqrt(pow(deltay, 2) + pow(deltax, 2))
-            cos_d = deltax / sqrt(pow(deltay, 2) + pow(deltax, 2))
+            if abs(deltay) + abs(deltax) != 0:
+                sin_d = deltay / sqrt(pow(deltay, 2) + pow(deltax, 2))
+                cos_d = deltax / sqrt(pow(deltay, 2) + pow(deltax, 2))
             first_dot = [self.array[num][0] + cos_d * self.ball_size // 2, self.array[num][1] + sin_d * self.ball_size // 2]
             if deltax == 0:
                 k = 'x=0'
-            if deltay == 0:
+            elif deltay == 0:
                 k = 'y=0'
-            if deltax != 0:
+            elif deltax != 0:
                 k = deltay / deltax
             second_dot_possible = self.find_perese(k, num, deltax, deltay)
 
@@ -226,6 +233,80 @@ class Table:
             pygame.display.flip()
             self.clock.tick(FPS)
             pressed = pygame.mouse.get_pressed()
+            if pressed[1]:
+                self.dr_table()
+                pygame.display.flip()
+                return
+        dot = pygame.mouse.get_pos()
+        rast = sqrt((dot[0] - self.array[num][0]) ** 2 + (dot[1] - self.array[num][1]) ** 2)
+
+        deltax_ = - (dot[0] - self.array[num][0])
+        deltay_ = - (dot[1] - self.array[num][1])
+        if rast >= 4 * self.ball_size:
+            mul_ = 1
+        else:
+            mul_ = rast / (4 * self.ball_size)
+        if deltay_ == 0:
+            k_ = 0
+        elif deltax_ == 0:
+            k_ = 'x=0'
+        else:
+            k_ = abs(deltay_ / deltax_)
+        napr_ = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+        self.move(num, k_, mul_, napr_, deltax_, deltay_)
+
+
+
+
+
+    def move(self, num, k_, mul_, napr_, deltax_, deltay_):
+        starting_race = 11 * self.ball_size * mul_ # starting race = 15 m/c
+        race = starting_race
+        mu = 0.25
+        g = 9.8
+        print(starting_race)
+        starting_time = time.time()
+        if k_ != 0 and k_ != 'x=0':
+            while race > 0:
+                k1_ = abs(deltax_ / sqrt((deltax_) ** 2 + (deltay_) ** 2))
+                k2_ = abs(deltay_ / sqrt((deltax_) ** 2 + (deltay_) ** 2))
+                match num + 1:
+                    case 1:
+                        self.b_1.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 2:
+                        self.b_2.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 3:
+                        self.b_3.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 4:
+                        self.b_4.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 5:
+                        self.b_5.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 6:
+                        self.b_6.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 7:
+                        self.b_7.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 8:
+                        self.b_8.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 9:
+                        self.b_9.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 10:
+                        self.b_10.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 11:
+                        self.b_11.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 12:
+                        self.b_12.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 13:
+                        self.b_13.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 14:
+                        self.b_14.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 15:
+                        self.b_15.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                    case 16:
+                        self.b_16.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                race = race - (time.time() - starting_time) / 60 * mu * g
+                self.dr_table()
+
+
 
 
 
@@ -483,7 +564,7 @@ class Ball:
 
 if __name__ == '__main__':
     pygame.init()
-    window_size = (700, 700)
+    window_size = (900, 900)
     pygame.display.set_caption("Бильярдный стол")
     screen = pygame.display.set_mode(window_size)
     background_color = (0, 0, 255)  # синий
