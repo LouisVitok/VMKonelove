@@ -2,6 +2,7 @@ import pygame
 from math import pi, sqrt
 import random
 
+FPS = 60
 
 class Table:
     def __init__(self, window_size, screen):
@@ -26,6 +27,7 @@ class Table:
         self.window_size = window_size
         self.array = None
         self.table_size = list()
+        self.clock = pygame.time.Clock()
         self.start()
 
     def f_line_chousen(self, k, x_0, y_0, x):
@@ -43,18 +45,35 @@ class Table:
                     continue
                 else:
                     if self.array[i][3]:
-                        x_meet = (self.array[i][0] / k + self.array[i][1] + k * self.array[num][0] - self.array[num][1]) / (
-                                    k + 1 / k)
-                        y_meet = self.f_line_chousen(k, self.array[num][0], self.array[num][1], x_meet)
-                        if sqrt((x_meet - self.array[i][0]) ** 2 + (y_meet - self.array[i][1]) ** 2) <= self.ball_size // 2:
-                            if sqrt((self.array[i][0] - self.array[num][0]) ** 2 + (
-                                    self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
-                                    (cur_closest[0] - self.array[num][0]) ** 2 + (
-                                            cur_closest[1] - self.array[num][1]) ** 2):
-                                second_dot_possible = [x_meet, y_meet]
-                                cur_closest = [self.array[i][0], self.array[i][1]]
-                        else:
-                            continue
+                        # if deltax > 0:
+                        #     k1 = 1
+                        # else:
+                        #     k1 = -1
+                        # if deltay > 0:
+                        #     k2 = 1
+                        # else:
+                        #     k2 = -1
+                        # if i == 9:
+                            # print((self.array[i][0] - self.array[num][0]) * k1 + (self.array[i][1] - self.array[num][1]) * k * k2, (self.array[i][0] - self.array[num][0]) * k1, (self.array[i][1] - self.array[num][1]) * k * k2, k, k1, k2, 333)
+                        # if (self.array[i][0] - self.array[num][0]) * k1 + (self.array[i][1] - self.array[num][1]) * k * k2 >= 0:
+                        if (self.f_line_chousen(-1 / k, self.array[num][0], self.array[num][1], self.array[i][0]) - self.array[i][1]) * pow(-1, (deltay < 0)) < 0:
+                            # print(i)
+                            x_meet = (self.array[i][0] / k + self.array[i][1] + k * self.array[num][0] - self.array[num][1]) / (
+                                        k + 1 / k)
+                            y_meet = self.f_line_chousen(k, self.array[num][0], self.array[num][1], x_meet)
+                            # print((self.array[i][0], self.array[i][1]), x_meet, y_meet, i, 111)
+                            # if i == 9:
+                            #     print(sqrt((x_meet - self.array[i][0]) ** 2 + (y_meet - self.array[i][1]) ** 2), self.ball_size // 2)
+                            if sqrt((x_meet - self.array[i][0]) ** 2 + (y_meet - self.array[i][1]) ** 2) <= self.ball_size // 2:
+                                if sqrt((self.array[i][0] - self.array[num][0]) ** 2 + (
+                                        self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
+                                        (cur_closest[0] - self.array[num][0]) ** 2 + (
+                                                cur_closest[1] - self.array[num][1]) ** 2):
+                                    second_dot_possible = [x_meet, y_meet]
+                                    cur_closest = [self.array[i][0], self.array[i][1]]
+                                    # print(second_dot_possible, cur_closest, i, 222)
+                            else:
+                                continue
         else:
             if k == 'x=0':
                 if deltay != 0:
@@ -71,10 +90,7 @@ class Table:
                                         x_meet = self.array[num][0]
                                         y_meet = self.array[i][1]
 
-                                        if self.array[i][1] - self.array[num][1] > 0 and sqrt((self.array[i][0] - self.array[num][0]) ** 2 + (
-                                            self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
-                                        (cur_closest[0] - self.array[num][0]) ** 2 + (
-                                                cur_closest[1] - self.array[num][1]) ** 2):
+                                        if self.array[i][1] - self.array[num][1] > 0 and sqrt((self.array[i][0] - self.array[num][0]) ** 2 + (self.array[i][1] - self.array[num][1]) ** 2) < sqrt((cur_closest[0] - self.array[num][0]) ** 2 + (cur_closest[1] - self.array[num][1]) ** 2):
                                             second_dot_possible = [x_meet, y_meet]
                                             cur_closest = [self.array[i][0], self.array[i][1]]
                                 if deltay < 0:
@@ -96,6 +112,7 @@ class Table:
 
                 else:
                     second_dot_possible = [self.array[num][0], self.array[num][1]]
+                return second_dot_possible
             elif k == 'y=0':
                 for i in range(len(self.array)):
                     if i == num:
@@ -146,7 +163,6 @@ class Table:
                 # if i.type == pygame.MOUSEBUTTONDOWN:
                     # pressed = pygame.mouse.get_pressed()
             pos = pygame.mouse.get_pos()
-            print(pos)
             self.dr_table()
             deltax = - (pos[0] - self.array[num][0])
             deltay = - (pos[1] - self.array[num][1])
@@ -160,6 +176,7 @@ class Table:
             if deltax != 0:
                 k = deltay / deltax
             second_dot_possible = self.find_perese(k, num, deltax, deltay)
+
             if second_dot_possible == [0, 0]:
                 if deltax > 0 and deltay > 0:
                     perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])
@@ -171,7 +188,7 @@ class Table:
                     perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
                                                              self.table_size[1])
                     if perese_with_2_bort < self.table_size[0]:
-                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) , self.table_size[0]]
+                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[0]) , self.table_size[0]]
                     else:
                         second_dot = [self.table_size[1], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])]
                 elif deltax < 0 and deltay > 0:
@@ -205,12 +222,10 @@ class Table:
                             second_dot = second_dot_possible
             else:
                 second_dot = second_dot_possible
-            print(100, num, self.array[num])
             pygame.draw.aaline(self.screen, (0, 0, 255), first_dot, second_dot)
             pygame.display.flip()
-            print(101, num,  first_dot, second_dot)
+            self.clock.tick(FPS)
             pressed = pygame.mouse.get_pressed()
-        print(124, num)
 
 
 
@@ -432,6 +447,7 @@ class Table:
                                (sq // 8)]
         self.array = self.comm_ball()
         pygame.display.flip()
+        self.clock.tick(FPS)
 
     def comm_ball(self):
         lst = [self.b_1.koo(), self.b_2.koo(), self.b_3.koo(), self.b_4.koo(), self.b_5.koo(), self.b_6.koo(), self.b_7.koo(), self.b_8.koo(), self.b_9.koo(), self.b_10.koo(), self.b_11.koo(), self.b_12.koo(), self.b_13.koo(), self.b_14.koo(), self.b_15.koo(), self.b_16.koo()]
@@ -478,8 +494,8 @@ if __name__ == '__main__':
     ball_size = (6 * (sq // 8)) // 52
 
     table = Table(window_size, screen)
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
+    # while True:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             pygame.quit()
+    #             exit()
