@@ -564,7 +564,7 @@ class Ball:
 
 if __name__ == '__main__':
     pygame.init()
-    window_size = (900, 900)
+    window_size = (700, 700)
     pygame.display.set_caption("Бильярдный стол")
     screen = pygame.display.set_mode(window_size)
     background_color = (0, 0, 255)  # синий
