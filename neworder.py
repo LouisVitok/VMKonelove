@@ -1,5 +1,7 @@
+import math
+
 import pygame
-from math import pi, sqrt, atan, sin, cos
+from math import pi, sqrt, atan, sin, cos, acos
 import random
 import time
 
@@ -67,7 +69,7 @@ class Table:
                             # print((self.array[i][0], self.array[i][1]), x_meet, y_meet, i, 111)
                             # if i == 9:
                             #     print(sqrt((x_meet - self.array[i][0]) ** 2 + (y_meet - self.array[i][1]) ** 2), self.ball_size // 2)
-                            if sqrt((x_meet - self.array[i][0]) ** 2 + (y_meet - self.array[i][1]) ** 2) <= self.ball_size // 2:
+                            if sqrt((x_meet - self.array[i][0]) ** 2 + (y_meet - self.array[i][1]) ** 2) <= self.ball_size:
                                 if sqrt((self.array[i][0] - self.array[num][0]) ** 2 + (
                                         self.array[i][1] - self.array[num][1]) ** 2) < sqrt(
                                         (cur_closest[0] - self.array[num][0]) ** 2 + (
@@ -89,7 +91,7 @@ class Table:
                         else:
                             if self.array[i][3]:
                                 if deltay > 0:
-                                    if self.array[i][1] - self.array[num][1] > 0 and self.array[i][0] > self.array[num][0] - self.ball_size // 2 and self.array[i][0] < self.array[num][0] + self.ball_size // 2:
+                                    if self.array[i][1] - self.array[num][1] > 0 and self.array[i][0] > self.array[num][0] - self.ball_size and self.array[i][0] < self.array[num][0] + self.ball_size:
                                         x_meet = self.array[num][0]
                                         y_meet = self.array[i][1]
 
@@ -127,8 +129,8 @@ class Table:
                         if self.array[i][3]:
                             if deltax > 0:
                                 if self.array[i][0] - self.array[num][0] > 0 and self.array[i][1] > self.array[num][
-                                    1] - self.ball_size // 2 and self.array[i][1] < self.array[num][
-                                    1] + self.ball_size // 2:
+                                    1] - self.ball_size and self.array[i][1] < self.array[num][
+                                    1] + self.ball_size:
                                     print(i)
                                     x_meet = self.array[i][0]
                                     y_meet = self.array[num][1]
@@ -152,9 +154,107 @@ class Table:
                                         cur_closest = [self.array[i][0], self.array[i][1]]
                         else:
                             continue
-        return second_dot_possible
+        if second_dot_possible == [0, 0]:
+            if deltax != 0 and deltay != 0:
+                kl = abs(k)
+                if deltax > 0 and deltay > 0:
+                    perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                             self.table_size[1])
+                    if perese_with_2_bort > self.table_size[2]:
+                        second_dot = [
+                            self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) - (
+                                        self.ball_size // 2 / kl), self.table_size[2] - (self.ball_size // 2), 1]
+                    else:
+                        second_dot = [self.table_size[1] - (self.ball_size // 2),
+                                      self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                          self.table_size[1]) - kl * (self.ball_size // 2), 2]
+                elif deltax > 0 and deltay < 0:
+                    perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                             self.table_size[1])
+                    if perese_with_2_bort < self.table_size[0]:
+                        second_dot = [
+                            self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[0]) - (
+                                        self.ball_size // 2 / kl), self.table_size[0] + (self.ball_size // 2), 0]
+                    else:
+                        second_dot = [self.table_size[1] - (self.ball_size // 2),
+                                      self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                          self.table_size[1]) - kl * (self.ball_size // 2), 1]
+                elif deltax < 0 and deltay > 0:
+                    perese_with_4_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                             self.table_size[3])
+                    if perese_with_4_bort > self.table_size[2]:
+                        second_dot = [
+                            self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) + (
+                                        self.ball_size // 2 / kl), self.table_size[2] - (self.ball_size // 2), 2]
+                    else:
+                        second_dot = [self.table_size[3] + (self.ball_size // 2),
+                                      self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                          self.table_size[3]) - kl * (self.ball_size // 2), 3]
+                elif deltax < 0 and deltay < 0:
+                    perese_with_4_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                             self.table_size[3])
+                    if perese_with_4_bort < self.table_size[0]:
+                        second_dot = [
+                            self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[0]) + (
+                                        self.ball_size // 2 / kl), self.table_size[0] + (self.ball_size // 2), 0]
+                    else:
+                        second_dot = [self.table_size[3] + (self.ball_size // 2),
+                                      self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+                                                          self.table_size[3]) + kl * (self.ball_size // 2), 3]
+            elif deltax == 0 or deltay == 0:
+                if deltay == 0:
+                    if deltax > 0:
+                        second_dot = [self.table_size[1] - (self.ball_size // 2), self.array[num][1], 1]
+                    elif deltax < 0:
+                        second_dot = [self.table_size[3] + (self.ball_size // 2), self.array[num][1], 3]
+                    else:
+                        second_dot = [self.array[num][0], self.array[num][1]]
+                elif deltax == 0:
+                    if deltay > 0:
+                        second_dot = [self.array[num][0], self.table_size[2] - (self.ball_size // 2), 2]
+                    elif deltay < 0:
+                        second_dot = [self.array[num][0], self.table_size[0] + (self.ball_size // 2), 0]
+                    else:
+                        second_dot = [self.array[num][0], self.array[num][1]]
+        else:
+            second_dot = second_dot_possible
+            number = self.closest(second_dot, num)
+            qas = sqrt((second_dot[0] - self.array[number][0]) ** 2 + (second_dot[1] - self.array[number][1]) ** 2)
+            if qas <= self.ball_size // 2:
+                alpha = acos(qas / (self.ball_size // 2))
+                qas2 = (self.ball_size // 2) * sin(alpha) + (self.ball_size // 2)
+
+                if deltax != 0:
+                    if deltax < 0 and deltay >= 0:
+                        second_dot = [second_dot[0] + qas2 * cos(atan(k)), second_dot[1] - qas2 * sin(atan(k)), -1]
+                    elif deltax < 0 and deltay < 0:
+                        second_dot = [second_dot[0] + qas2 * cos(atan(k)), second_dot[1] + qas2 * sin(atan(k)), -1]
+                    elif deltax > 0 and deltay >= 0:
+                        second_dot = [second_dot[0] - qas2 * cos(atan(k)), second_dot[1] - qas2 * sin(atan(k)), -1]
+                    elif deltax > 0 and deltay < 0:
+                        second_dot = [second_dot[0] - qas2 * cos(atan(k)), second_dot[1] + qas2 * sin(atan(k)), -1]
+                else:
+                    if deltay > 0:
+                        second_dot = [second_dot[0], second_dot[1] - self.ball_size // 2, -1]
+                    else:
+                        second_dot = [second_dot[0], second_dot[1] + self.ball_size // 2, -1]
+            else:
+                second_dot = [second_dot_possible[0], second_dot_possible[1], -1]
+        return second_dot
 
 
+    def closest(self, posi, num):
+        cur = sqrt(self.window_size[0] ** 2 + self.window_size[1] ** 2)
+        cur_ = num
+        for i in range(len(self.array)):
+            if i == num:
+                continue
+            else:
+                if self.array[i][2]:
+                    if sqrt((posi[0] - self.array[i][0]) ** 2 + (posi[1] - self.array[i][1]) ** 2) < cur:
+                        cur = sqrt((posi[0] - self.array[i][0]) ** 2 + (posi[1] - self.array[i][1]) ** 2)
+                        cur_ = i
+        return cur_
 
     def chousen(self, num):
         pressed = pygame.mouse.get_pressed()
@@ -182,54 +282,80 @@ class Table:
                 k = 'y=0'
             elif deltax != 0:
                 k = deltay / deltax
-            second_dot_possible = self.find_perese(k, num, deltax, deltay)
+            second_dot = self.find_perese(k, num, deltax, deltay)
 
-            if second_dot_possible == [0, 0]:
-                if deltax > 0 and deltay > 0:
-                    perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])
-                    if perese_with_2_bort > self.table_size[2]:
-                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) , self.table_size[2]]
-                    else:
-                        second_dot = [self.table_size[1], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])]
-                elif deltax > 0 and deltay < 0:
-                    perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
-                                                             self.table_size[1])
-                    if perese_with_2_bort < self.table_size[0]:
-                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[0]) , self.table_size[0]]
-                    else:
-                        second_dot = [self.table_size[1], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])]
-                elif deltax < 0 and deltay > 0:
-                    perese_with_4_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
-                                                             self.table_size[3])
-                    if perese_with_4_bort > self.table_size[2]:
-                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) , self.table_size[2]]
-                    else:
-                        second_dot = [self.table_size[3], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[3])]
-                elif deltax < 0 and deltay < 0:
-                    perese_with_4_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
-                                                             self.table_size[3])
-                    if perese_with_4_bort < self.table_size[0]:
-                        second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[0]) , self.table_size[0]]
-                    else:
-                        second_dot = [self.table_size[3], self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[3])]
-                elif deltax == 0 or deltay == 0:
-                    if deltay == 0:
-                        if deltax > 0:
-                            second_dot = [self.table_size[1], self.array[num][1]]
-                        elif deltax < 0:
-                            second_dot = [self.table_size[3], self.array[num][1]]
-                        else:
-                            second_dot = second_dot_possible
-                    elif deltax == 0:
-                        if deltay > 0:
-                            second_dot = [self.array[num][0], self.table_size[2]]
-                        elif deltay < 0:
-                            second_dot = [self.array[num][0], self.table_size[0]]
-                        else:
-                            second_dot = second_dot_possible
-            else:
-                second_dot = second_dot_possible
-            pygame.draw.aaline(self.screen, (0, 0, 255), first_dot, second_dot)
+            # if second_dot_possible == [0, 0]:
+            #     if deltax != 0 and deltay != 0:
+            #         kl = abs(k)
+            #         if deltax > 0 and deltay > 0:
+            #             perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1])
+            #             if perese_with_2_bort > self.table_size[2]:
+            #                 second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) - (self.ball_size // 2 / kl), self.table_size[2] - (self.ball_size // 2), 1]
+            #             else:
+            #                 second_dot = [self.table_size[1] - (self.ball_size // 2), self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1]) - kl * (self.ball_size // 2), 2]
+            #         elif deltax > 0 and deltay < 0:
+            #             perese_with_2_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+            #                                                      self.table_size[1])
+            #             if perese_with_2_bort < self.table_size[0]:
+            #                 second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[0]) - (self.ball_size // 2 / kl), self.table_size[0] + (self.ball_size // 2), 0]
+            #             else:
+            #                 second_dot = [self.table_size[1] - (self.ball_size // 2), self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[1]) - kl * (self.ball_size // 2), 1]
+            #         elif deltax < 0 and deltay > 0:
+            #             perese_with_4_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+            #                                                      self.table_size[3])
+            #             if perese_with_4_bort > self.table_size[2]:
+            #                 second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[2]) + (self.ball_size // 2 / kl), self.table_size[2] - (self.ball_size // 2), 2]
+            #             else:
+            #                 second_dot = [self.table_size[3] + (self.ball_size // 2), self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[3]) - kl * (self.ball_size // 2), 3]
+            #         elif deltax < 0 and deltay < 0:
+            #             perese_with_4_bort = self.f_line_chousen(k, self.array[num][0], self.array[num][1],
+            #                                                      self.table_size[3])
+            #             if perese_with_4_bort < self.table_size[0]:
+            #                 second_dot = [self.x_f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[0]) + (self.ball_size // 2 / kl), self.table_size[0] + (self.ball_size // 2), 0]
+            #             else:
+            #                 second_dot = [self.table_size[3] + (self.ball_size // 2), self.f_line_chousen(k, self.array[num][0], self.array[num][1], self.table_size[3]) + kl * (self.ball_size // 2), 3]
+            #     elif deltax == 0 or deltay == 0:
+            #         if deltay == 0:
+            #             if deltax > 0:
+            #                 second_dot = [self.table_size[1] - (self.ball_size // 2), self.array[num][1], 1]
+            #             elif deltax < 0:
+            #                 second_dot = [self.table_size[3] + (self.ball_size // 2), self.array[num][1], 3]
+            #             else:
+            #                 second_dot = [self.array[num][0], self.array[num][1]]
+            #         elif deltax == 0:
+            #             if deltay > 0:
+            #                 second_dot = [self.array[num][0], self.table_size[2] - (self.ball_size // 2), 2]
+            #             elif deltay < 0:
+            #                 second_dot = [self.array[num][0], self.table_size[0] + (self.ball_size // 2), 0]
+            #             else:
+            #                 second_dot = [self.array[num][0], self.array[num][1]]
+            # else:
+            #     second_dot = second_dot_possible
+            #     number = self.closest(second_dot, num)
+            #     qas = sqrt((second_dot[0] - self.array[number][0]) ** 2 + (second_dot[1] - self.array[number][1]) ** 2)
+            #     if qas <= self.ball_size // 2:
+            #         alpha = acos(qas / (self.ball_size // 2))
+            #         qas2 = (self.ball_size // 2) * sin(alpha) + (self.ball_size // 2)
+            #
+            #         if deltax != 0:
+            #             if deltax < 0 and deltay >= 0:
+            #                 second_dot = [second_dot[0] + qas2 * cos(atan(k)), second_dot[1] - qas2 * sin(atan(k)), -1]
+            #             elif deltax < 0 and deltay < 0:
+            #                 second_dot = [second_dot[0] + qas2 * cos(atan(k)), second_dot[1] + qas2 * sin(atan(k)), -1]
+            #             elif deltax > 0 and deltay >= 0:
+            #                 second_dot = [second_dot[0] - qas2 * cos(atan(k)), second_dot[1] - qas2 * sin(atan(k)), -1]
+            #             elif deltax > 0 and deltay < 0:
+            #                 second_dot = [second_dot[0] - qas2 * cos(atan(k)), second_dot[1] + qas2 * sin(atan(k)), -1]
+            #         else:
+            #             if deltay > 0:
+            #                 second_dot = [second_dot[0], second_dot[1] - self.ball_size // 2, -1]
+            #             else:
+            #                 second_dot = [second_dot[0], second_dot[1] + self.ball_size // 2, -1]
+            #     else:
+            #         second_dot = second_dot_possible
+
+            pygame.draw.aaline(self.screen, (0, 0, 255), first_dot, (second_dot[0], second_dot[1]))
+            pygame.draw.circle(self.screen, (255, 255, 255), (second_dot[0], second_dot[1]), self.ball_size // 2, 2)
             pygame.display.flip()
             self.clock.tick(FPS)
             pressed = pygame.mouse.get_pressed()
@@ -253,23 +379,25 @@ class Table:
         else:
             k_ = abs(deltay_ / deltax_)
         napr_ = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
-        self.move(num, k_, mul_, napr_, deltax_, deltay_)
+        print(second_dot)
+        self.move(num, k_, mul_, napr_, deltax_, deltay_, second_dot, 0)
 
 
 
 
 
-    def move(self, num, k_, mul_, napr_, deltax_, deltay_):
-        starting_race = 11 * self.ball_size * mul_ # starting race = 15 m/c
+    def move(self, num, k_, mul_, napr_, deltax_, deltay_, second_dot_, type, st_r=0):
+        if type == 0:
+            starting_race = 11 * self.ball_size * mul_ # starting race = 15 m/c
+        else:
+            starting_race = st_r
         race = starting_race
         mu = 0.25
         g = 9.8
         print(starting_race)
         starting_time = time.time()
-        if k_ != 0 and k_ != 'x=0':
+        if k_ != 'x=0':
             while race > 0:
-                k1_ = abs(deltax_ / sqrt((deltax_) ** 2 + (deltay_) ** 2))
-                k2_ = abs(deltay_ / sqrt((deltax_) ** 2 + (deltay_) ** 2))
                 match num + 1:
                     case 1:
                         self.b_1.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
@@ -303,6 +431,71 @@ class Table:
                         self.b_15.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
                     case 16:
                         self.b_16.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 60 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 60)
+                race = race - (time.time() - starting_time) / 60 * mu * g
+                self.dr_table()
+                if abs(self.array[num][0] - second_dot_[0]) <= 2 and abs(self.array[num][1] - second_dot_[1]) <= 2:
+                    print(3333333333333333333)
+                    if second_dot_[2] == 0:
+                        second_dor_new = self.find_perese(-k_, num, deltax_, -deltay_)
+                        print(second_dor_new)
+                        napr_new = [napr_[0], -napr_[1]]
+                        self.move(num, -k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race)
+                        print(2222222222222)
+                    elif second_dot_[2] == 1:
+                        second_dor_new = self.find_perese(-k_, num, -deltax_, deltay_)
+                        napr_new = [-napr_[0], napr_[1]]
+                        self.move(num, -k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race)
+                    elif second_dot_[2] == 2:
+                        second_dor_new = self.find_perese(-k_, num, deltax_, -deltay_)
+                        napr_new = [napr_[0], -napr_[1]]
+                        self.move(num, -k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race)
+                    elif second_dot_[2] == 3:
+                        second_dor_new = self.find_perese(-k_, num, -deltax_, deltay_)
+                        napr_new = [-napr_[0], napr_[1]]
+                        self.move(num, -k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race)
+                    elif second_dot_[2] == -1:
+                        pass
+                    break
+                    return
+
+
+
+
+        elif k_ == 'x=0':
+            while race > 0:
+                match num + 1:
+                    case 1:
+                        self.b_1.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1 / 60)
+                    case 2:
+                        self.b_2.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1 / 60)
+                    case 3:
+                        self.b_3.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1 / 60)
+                    case 4:
+                        self.b_4.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1 / 60)
+                    case 5:
+                        self.b_5.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1 / 60)
+                    case 6:
+                        self.b_6.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1  /60)
+                    case 7:
+                        self.b_7.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1  /60)
+                    case 8:
+                        self.b_8.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1 / 60)
+                    case 9:
+                        self.b_9.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1 / 60)
+                    case 10:
+                        self.b_10.koo_in(self.array[num][0] + napr_[0] * race *0  / 60 , self.array[num][1] + napr_[1] * race *1 / 60)
+                    case 11:
+                        self.b_11.koo_in(self.array[num][0] + napr_[0] * race *0  / 60 , self.array[num][1] + napr_[1] * race *1 / 60)
+                    case 12:
+                        self.b_12.koo_in(self.array[num][0] + napr_[0] * race *0  / 60 , self.array[num][1] + napr_[1] * race *1 / 60)
+                    case 13:
+                        self.b_13.koo_in(self.array[num][0] + napr_[0] * race *0  / 60 , self.array[num][1] + napr_[1] * race * 1/ 60)
+                    case 14:
+                        self.b_14.koo_in(self.array[num][0] + napr_[0] * race *0  / 60 , self.array[num][1] + napr_[1] * race * 1/ 60)
+                    case 15:
+                        self.b_15.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1/ 60)
+                    case 16:
+                        self.b_16.koo_in(self.array[num][0] + napr_[0] * race * 0 / 60 , self.array[num][1] + napr_[1] * race * 1/ 60)
                 race = race - (time.time() - starting_time) / 60 * mu * g
                 self.dr_table()
 
