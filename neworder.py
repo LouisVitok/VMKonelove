@@ -231,7 +231,7 @@ class Table:
                     else:
                         second_dot = [second_dot[0], second_dot[1] + self.ball_size // 2, -1]
             else:
-                second_dot = [second_dot_possible[0], second_dot_possible[1], -1, number]
+                second_dot = [second_dot_possible[0], second_dot_possible[1], -1]
         return second_dot
 
 
@@ -306,12 +306,12 @@ class Table:
             napr_ = [pow(-1, deltax_ < 0), pow(-1, deltay_ < 0)]
         self.move(num, k_, mul_, napr_, deltax_, deltay_, second_dot, 0)
 
-
+#_________________________________________________________________________
     def new_k(self, second_dot_, k_, deltax_, deltay_, num, napr_, r, t):
         number = self.closest(second_dot_, num)
         deltax = self.array[number][0] - second_dot_[0]
         deltay = self.array[number][1] - second_dot_[1]
-        if deltax != 0:
+        if deltax != 0 and deltay != 0:
             if napr_[0] == 1 and napr_[1] == 1:
                 k = deltay / deltax
                 n = - 1 / k
@@ -367,10 +367,137 @@ class Table:
             napr_new_1 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
             second_dot_new_0 = self.find_perese(n, num, napr_new_0[0], napr_new_0[1])
             second_dot_new_1 = self.find_perese(k, number, napr_new_1[0], napr_new_1[1])
-            self.move(num, n, 4, napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, 2, r * cos(abs(x)), t)
-            self.move(number, k, 4, napr_new_1, napr_new_1[0], napr_new_1[1], second_dot_new_1, 3, r * sin(abs(x)))
+            #self.move(num, n, 4, napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, 2, r * cos(abs(x)), t)
+            #self.move(number, k, 4, napr_new_1, napr_new_1[0], napr_new_1[1], second_dot_new_1, 3, r * sin(abs(x)))
+        elif deltay == 0:
+            if k_ == 0:
+                napr_new_0 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+                second_dot_new_0 = self.find_perese('y=0', number, deltax, deltay)
+                self.move(number, 0, 0, napr_new_0, deltax, deltay, second_dot_new_0, 1, r, time.time())
+            else:
+                napr_new_0 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+                second_dot_new_0 = self.find_perese('x=0', number, deltax, deltay)
+                x = atan(k_)
+                r0 = r * abs(sin(x))
+                r1 = r * abs(cos(x))
+                self.move2(num, )
+                # self.move(number, 'x=0', 0, napr_new_1, deltax, deltay, second_dot_new_1, 1, r, time.time())
 
+        elif deltax == 0:
+            if k_ == 'x=0':
+                napr_new_0 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+                second_dot_new_0 = self.find_perese('x=0', number, deltax, deltay)
+                self.move(number, 'x=0', 0, napr_new_0, deltax, deltay, second_dot_new_0, 1, r, time.time())
+            else:
+                napr_new_0 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+                second_dot_new_0 = self.find_perese('y=0', number, deltax, deltay)
+                x = atan(k_)
+                r0 = r * abs(sin(x))
+                r1 = r * abs(cos(x))
 
+    def move2(self, num0, k0, napr0, dx0, dy0, second_0, r0, t, num1, k1, napr1, dx1, dy1, second_1, r1):
+#_______________________________________________________________________________________________________________________
+    def change(self, num, napr_, race, k_, t):
+        if t == 0:
+            match num + 1:
+                case 1:
+                    self.b_1.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 2:
+                    self.b_2.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 3:
+                    self.b_3.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 4:
+                    self.b_4.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 5:
+                    self.b_5.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 6:
+                    self.b_6.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 7:
+                    self.b_7.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 8:
+                    self.b_8.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 9:
+                    self.b_9.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                    self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 10:
+                    self.b_10.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                     self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 11:
+                    self.b_11.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                     self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 12:
+                    self.b_12.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                     self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 13:
+                    self.b_13.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                     self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 14:
+                    self.b_14.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                     self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 15:
+                    self.b_15.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                     self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+                case 16:
+                    self.b_16.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120,
+                                     self.array[num][1] + napr_[1] * race * sin(atan(k_)) / 120)
+        else:
+            match num + 1:
+                case 1:
+                    self.b_1.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 2:
+                    self.b_2.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 3:
+                    self.b_3.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 4:
+                    self.b_4.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 5:
+                    self.b_5.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 6:
+                    self.b_6.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 7:
+                    self.b_7.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 8:
+                    self.b_8.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 9:
+                    self.b_9.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                    self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 10:
+                    self.b_10.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                     self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 11:
+                    self.b_11.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                     self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 12:
+                    self.b_12.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                     self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 13:
+                    self.b_13.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                     self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 14:
+                    self.b_14.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                     self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 15:
+                    self.b_15.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                     self.array[num][1] + napr_[1] * race * 1 / 120)
+                case 16:
+                    self.b_16.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
+                                     self.array[num][1] + napr_[1] * race * 1 / 120)
 
 
 
@@ -378,139 +505,68 @@ class Table:
         # print(second_dot_)
         mu = 0.25
         g = 9.8
-        if type != 2 and type != 3:
-            if type == 0:
-                starting_race = 20 * self.ball_size * mul_ # starting race = 15 m/c
-                starting_time = time.time()
-            elif type == 1:
-                starting_race = st_r
-                starting_time = st_time
-            race = starting_race
-
-            # print(starting_race)
-            if k_ != 'x=0':
-                while race > 0:
-                    match num + 1:
-                        case 1:
-                            self.b_1.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 2:
-                            self.b_2.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 3:
-                            self.b_3.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 4:
-                            self.b_4.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 5:
-                            self.b_5.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 6:
-                            self.b_6.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 7:
-                            self.b_7.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 8:
-                            self.b_8.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 9:
-                            self.b_9.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 10:
-                            self.b_10.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 11:
-                            self.b_11.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 12:
-                            self.b_12.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 13:
-                            self.b_13.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 14:
-                            self.b_14.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 15:
-                            self.b_15.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                        case 16:
-                            self.b_16.koo_in(self.array[num][0] + napr_[0] * race * cos(atan(k_)) / 120 , self.array[num][1] + napr_[1] * race * sin(atan(k_))/ 120)
-                    race = race - (time.time() - starting_time) / 120 * mu * g
-                    self.dr_table()
-                    print(self.array[num])
-                    if abs(self.array[num][0] - second_dot_[0]) <= 5 and abs(self.array[num][1] - second_dot_[1]) <= 5:
-                        print(33333333333333333333)
-                        if second_dot_[2] == 0:
-                            second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
-                            napr_new = [napr_[0], -napr_[1]]
-                            self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
-                        elif second_dot_[2] == 1:
-                            second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
-                            napr_new = [-napr_[0], napr_[1]]
-                            self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
-                        elif second_dot_[2] == 2:
-                            second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
-                            napr_new = [napr_[0], -napr_[1]]
-                            self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
-                        elif second_dot_[2] == 3:
-                            second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
-                            napr_new = [-napr_[0], napr_[1]]
-                            self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
-                        elif second_dot_[2] == -1:
-                            self.new_k(second_dot_, k_, deltax_, deltay_, num, napr_, race, starting_time)
-                        break
-                        return
-
-
-
-
-            elif k_ == 'x=0':
-                while race > 0:
-                    match num + 1:
-                        case 1:
-                            self.b_1.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 2:
-                            self.b_2.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 3:
-                            self.b_3.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 4:
-                            self.b_4.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 5:
-                            self.b_5.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 6:
-                            self.b_6.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 7:
-                            self.b_7.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 8:
-                            self.b_8.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 9:
-                            self.b_9.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 10:
-                            self.b_10.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 11:
-                            self.b_11.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 12:
-                            self.b_12.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 13:
-                            self.b_13.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 14:
-                            self.b_14.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 15:
-                            self.b_15.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                        case 16:
-                            self.b_16.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120 , self.array[num][1] + napr_[1] * race * 1 / 120)
-                    race = race - (time.time() - starting_time) / 120 * mu * g
-                    self.dr_table()
-                    if abs(self.array[num][0] - second_dot_[0]) <= 5 and abs(self.array[num][1] - second_dot_[1]) <= 5:
-                        if second_dot_[2] == 0:
-                            second_dor_new = self.find_perese('x=0', num, deltax_, -deltay_)
-                            napr_new = [napr_[0], -napr_[1]]
-                            self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
-                        elif second_dot_[2] == 1:
-                            second_dor_new = self.find_perese('x=0', num, -deltax_, deltay_)
-                            napr_new = [-napr_[0], napr_[1]]
-                            self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
-                        elif second_dot_[2] == 2:
-                            second_dor_new = self.find_perese('x=0', num, deltax_, -deltay_)
-                            napr_new = [napr_[0], -napr_[1]]
-                            self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
-                        elif second_dot_[2] == 3:
-                            second_dot_new = self.find_perese('x=0', num, -deltax_, deltay_)
-                            napr_new = [-napr_[0], napr_[1]]
-                            self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dot_new, 1, race, starting_time)
-                        elif second_dot_[2] == -1:
-                            pass
-                        break
-                        return
-        else:
+        if type == 0:
+            starting_race = 20 * self.ball_size * mul_ # starting race = 15 m/c
+            starting_time = time.time()
+        elif type == 1:
+            starting_race = st_r
+            starting_time = st_time
+        race = starting_race
+        # print(starting_race)
+        if k_ != 'x=0':
+            while race > 0:
+                self.change(num, napr_, race, k_, 0)
+                race = race - (time.time() - starting_time) / 120 * mu * g
+                self.dr_table()
+                print(self.array[num])
+                if abs(self.array[num][0] - second_dot_[0]) <= 5 and abs(self.array[num][1] - second_dot_[1]) <= 5:
+                    print(33333333333333333333)
+                    if second_dot_[2] == 0:
+                        second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
+                        napr_new = [napr_[0], -napr_[1]]
+                        self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+                    elif second_dot_[2] == 1:
+                        second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
+                        napr_new = [-napr_[0], napr_[1]]
+                        self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
+                    elif second_dot_[2] == 2:
+                        second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
+                        napr_new = [napr_[0], -napr_[1]]
+                        self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+                    elif second_dot_[2] == 3:
+                        second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
+                        napr_new = [-napr_[0], napr_[1]]
+                        self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
+                    elif second_dot_[2] == -1:
+                        self.new_k(second_dot_, k_, deltax_, deltay_, num, napr_, race, starting_time)
+                    break
+                    return
+        elif k_ == 'x=0':
+            while race > 0:
+                self.change(num, napr_, race, k_, 1)
+                race = race - (time.time() - starting_time) / 120 * mu * g
+                self.dr_table()
+                if abs(self.array[num][0] - second_dot_[0]) <= 5 and abs(self.array[num][1] - second_dot_[1]) <= 5:
+                    if second_dot_[2] == 0:
+                        second_dor_new = self.find_perese('x=0', num, deltax_, -deltay_)
+                        napr_new = [napr_[0], -napr_[1]]
+                        self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+                    elif second_dot_[2] == 1:
+                        second_dor_new = self.find_perese('x=0', num, -deltax_, deltay_)
+                        napr_new = [-napr_[0], napr_[1]]
+                        self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
+                    elif second_dot_[2] == 2:
+                        second_dor_new = self.find_perese('x=0', num, deltax_, -deltay_)
+                        napr_new = [napr_[0], -napr_[1]]
+                        self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+                    elif second_dot_[2] == 3:
+                        second_dot_new = self.find_perese('x=0', num, -deltax_, deltay_)
+                        napr_new = [-napr_[0], napr_[1]]
+                        self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dot_new, 1, race, starting_time)
+                    elif second_dot_[2] == -1:
+                        pass
+                    break
+                    return
 
 
 
