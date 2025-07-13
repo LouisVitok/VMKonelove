@@ -304,8 +304,43 @@ class Table:
                 k_ = abs(deltay_ / deltax_)
             print(second_dot)
             napr_ = [pow(-1, deltax_ < 0), pow(-1, deltay_ < 0)]
-        self.move(num, k_, mul_, napr_, deltax_, deltay_, second_dot, 0)
+        # self.move(num, k_, mul_, napr_, deltax_, deltay_, second_dot, 0)
+        race = 20 * self.ball_size * mul_
+        match num + 1:
+            case 1:
+                self.b_1.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 2:
+                self.b_2.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 3:
+                self.b_3.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 4:
+                self.b_4.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 5:
+                self.b_5.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 6:
+                self.b_6.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 7:
+                self.b_7.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 8:
+                self.b_8.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 9:
+                self.b_9.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 10:
+                self.b_10.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 11:
+                self.b_11.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 12:
+                self.b_12.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 13:
+                self.b_13.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 14:
+                self.b_14.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 15:
+                self.b_15.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
+            case 16:
+                self.b_16.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
 
+# def moving(self, k_, race, napr_, deltax_, deltay_, second_dot):
 #_________________________________________________________________________
     def new_k(self, second_dot_, k_, deltax_, deltay_, num, napr_, r, t):
         number = self.closest(second_dot_, num)
@@ -364,39 +399,107 @@ class Table:
                         napr_new_0 = [1, -1]
                 elif n > 0:
                     napr_new_0 = [-1, -1]
+            r0 = r * abs(sin(x))
+            r1 = r * abs(cos(x))
             napr_new_1 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
             second_dot_new_0 = self.find_perese(n, num, napr_new_0[0], napr_new_0[1])
             second_dot_new_1 = self.find_perese(k, number, napr_new_1[0], napr_new_1[1])
+            # def help1(self, num, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
+            self.help1(number, 1, k, r1, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
+            return [n, napr_new_0, -deltax, -deltay, second_dot_new_0, r0, t]
+            # ['x=0', napr_, deltax_, deltay_, second_dot_, race, starting_time]
             #self.move(num, n, 4, napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, 2, r * cos(abs(x)), t)
             #self.move(number, k, 4, napr_new_1, napr_new_1[0], napr_new_1[1], second_dot_new_1, 3, r * sin(abs(x)))
+            # self.move2(num, n, napr_new_0, deltax, deltay, second_dot_new_0, r0, t, number, k, napr_new_1, deltax, deltay, second_dot_new_1, r1, 0)
         elif deltay == 0:
             if k_ == 0:
-                napr_new_0 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
-                second_dot_new_0 = self.find_perese('y=0', number, deltax, deltay)
-                self.move(number, 0, 0, napr_new_0, deltax, deltay, second_dot_new_0, 1, r, time.time())
+                napr_new_1 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+                second_dot_new_1 = self.find_perese('y=0', number, deltax, deltay)
+                # self.help1()
+                self.help1(number, 1, 0, r, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
+                return [0, 0, -0, -0, 0, 0, 0]
+                # self.move(number, 0, 0, napr_new_0, deltax, deltay, second_dot_new_0, 1, r, time.time())
             else:
-                napr_new_0 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
-                second_dot_new_0 = self.find_perese('x=0', number, deltax, deltay)
+                napr_new_0 = [pow(-1, deltax > 0), pow(-1, deltay > 0)]
+                napr_new_1 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+                second_dot_new_0 = self.find_perese('x=0', num, deltax, deltay)
+                second_dot_new_1 = self.find_perese('y=0', number, deltax, deltay)
                 x = atan(k_)
                 r0 = r * abs(sin(x))
                 r1 = r * abs(cos(x))
-                self.move2(num, )
+                self.help1(number, 1, 0, r1, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
+                return ['x=0', napr_new_0, -deltax, -deltay, second_dot_new_0, r0, t]
+                # ['x=0', napr_, deltax_, deltay_, second_dot_, race, starting_time]
+                # self.help1(number, 1, k, r1, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
+                # self.move2(num, 'x=0', napr_new_0, deltax, deltay, second_dot_new_0, r0, t, number, 0, napr_new_0, deltax, deltay, second_dot_new_1, r1, 0)
                 # self.move(number, 'x=0', 0, napr_new_1, deltax, deltay, second_dot_new_1, 1, r, time.time())
 
         elif deltax == 0:
             if k_ == 'x=0':
-                napr_new_0 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
-                second_dot_new_0 = self.find_perese('x=0', number, deltax, deltay)
-                self.move(number, 'x=0', 0, napr_new_0, deltax, deltay, second_dot_new_0, 1, r, time.time())
+                napr_new_1 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+                second_dot_new_1 = self.find_perese('x=0', number, deltax, deltay)
+                self.help1(number, 1, k_, r, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
+                return [0, 0, -0, -0, 0, 0, 0]
             else:
-                napr_new_0 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
-                second_dot_new_0 = self.find_perese('y=0', number, deltax, deltay)
+                napr_new_1 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
+                napr_new_0 = [pow(-1, deltax > 0), pow(-1, deltay > 0)]
+                second_dot_new_0 = self.find_perese('y=0', num, deltax, deltay)
+                second_dot_new_1 = self.find_perese('x=0', number, deltax, deltay)
                 x = atan(k_)
                 r0 = r * abs(sin(x))
                 r1 = r * abs(cos(x))
+                self.help1(number, 1, 'x=0', r1, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
+                return [0, napr_new_0, -deltax, -deltay, second_dot_new_0, r0, t]
+                # self.move2(num, 'y=0', napr_new_0, deltax, deltay, second_dot_new_0, r0, t, number, 'x=0', napr_new_0, deltax, deltay, second_dot_new_1, r1, 0)
 
-    def move2(self, num0, k0, napr0, dx0, dy0, second_0, r0, t, num1, k1, napr1, dx1, dy1, second_1, r1):
-#_______________________________________________________________________________________________________________________
+
+#     def move2(self, num0, k0, napr0, dx0, dy0, second_0, r0, t0_, num1, k1, napr1, dx1, dy1, second_1, r1, t1_):
+#         g = 10
+#         mu = 0.25
+#         race0 = r0
+#         race1 = r1
+#         t0 = t0_
+#         if t1_ == 0:
+#             t1 = time.time()
+#         else:
+#             t1 = time.time() - t1_
+#         if k0 == 'y=0' and k1 == 'x=0':
+#             while race0 > 0 or race1 > 0:
+#                 self.change(num0, napr0, race0, k0, 0)
+#                 self.change(num1, napr1, race1, k1, 1)
+#                 race0 = race0 - (time.time() - t0) / 120 * mu * g
+#                 race1 = race1 - (time.time() - t1) / 120 * mu * g
+#                 if race0 < 0:
+#                     race0 = 0
+#                 if race1 < 0:
+#                     race1 = 0
+#                 self.dr_table()
+#                 # print(self.array[num])
+#                 if abs(self.array[num0][0] - second_0[0]) <= 5 and abs(self.array[num0][1] - second_0[1]) <= 5:
+#                     print(33333333333333333333)
+#                     if second_0[2] == 0:
+#                         second_dor_new = self.find_perese(pow(-1, dx0 * dy0 > 0) * k0, num0, dx0, -dy0)
+#                         napr_new = [napr0[0], -napr0[1]]
+#                     #     # self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+#                     #     self.move2(num, 'y=0', napr_new_0, deltax, deltay, second_dot_new_0, r0, t, number, 'x=0',
+#                     #                napr_new_0,
+#                     #                deltax, deltay, second_dot_new_1, r1, 0)
+#                     # elif second_dot_[2] == 1:
+#                     #     second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
+#                     #     napr_new = [-napr_[0], napr_[1]]
+#                     #     self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
+#                     # elif second_dot_[2] == 2:
+#                     #     second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
+#                     #     napr_new = [napr_[0], -napr_[1]]
+#                     #     self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+#                     # elif second_dot_[2] == 3:
+#                     #     second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
+#                     #     napr_new = [-napr_[0], napr_[1]]
+#                     #     self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
+#                     # elif second_dot_[2] == -1:
+#                     #     self.new_k(second_dot_, k_, deltax_, deltay_, num, napr_, race, starting_time)
+#
+# #_______________________________________________________________________________________________________________________
     def change(self, num, napr_, race, k_, t):
         if t == 0:
             match num + 1:
@@ -498,83 +601,87 @@ class Table:
                 case 16:
                     self.b_16.koo_in(self.array[num][0] + napr_[0] * race * 0 / 120,
                                      self.array[num][1] + napr_[1] * race * 1 / 120)
+    # def helf_r(self, num, ):
 
 
-
-    def move(self, num, k_, mul_, napr_, deltax_, deltay_, second_dot_, type, st_r=0, st_time=0):
+    def move(self, num, race, k_, napr_, deltax_, deltay_, second_dot_, st_time=0):
         # print(second_dot_)
         mu = 0.25
         g = 9.8
-        if type == 0:
-            starting_race = 20 * self.ball_size * mul_ # starting race = 15 m/c
-            starting_time = time.time()
-        elif type == 1:
-            starting_race = st_r
-            starting_time = st_time
-        race = starting_race
+        # if type == 0:
+        #     starting_race = 20 * self.ball_size * mul_ # starting race = 15 m/c
+        #     starting_time = time.time()
+        # elif type == 1:
+        #     starting_race = st_r
+        #     starting_time = st_time
+        # race = starting_race
         # print(starting_race)
+        starting_time = st_time
+        # def moving(self, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
         if k_ != 'x=0':
             while race > 0:
                 self.change(num, napr_, race, k_, 0)
                 race = race - (time.time() - starting_time) / 120 * mu * g
-                self.dr_table()
+                # self.dr_table()
                 print(self.array[num])
                 if abs(self.array[num][0] - second_dot_[0]) <= 5 and abs(self.array[num][1] - second_dot_[1]) <= 5:
                     print(33333333333333333333)
                     if second_dot_[2] == 0:
-                        second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
+                        second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
                         napr_new = [napr_[0], -napr_[1]]
-                        self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+                        return [k_, napr_new, deltax_, -deltay_, second_dot_new, race, starting_time]
+                        # self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 1:
-                        second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
+                        second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
                         napr_new = [-napr_[0], napr_[1]]
-                        self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
+                        return [k_, napr_new, -deltax_, deltay_, second_dot_new, race, starting_time]
+                        # self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 2:
-                        second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
+                        second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
                         napr_new = [napr_[0], -napr_[1]]
-                        self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+                        return [k_, napr_new, deltax_, -deltay_, second_dot_new, race, starting_time]
+                        # self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 3:
-                        second_dor_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
+                        second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
                         napr_new = [-napr_[0], napr_[1]]
-                        self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
+                        return [k_, napr_new, -deltax_, deltay_, second_dot_new, race, starting_time]
+                        # self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == -1:
-                        self.new_k(second_dot_, k_, deltax_, deltay_, num, napr_, race, starting_time)
+                        return self.new_k(second_dot_, k_, deltax_, deltay_, num, napr_, race, starting_time)
                     break
                     return
+                return [k_, napr_, deltax_, deltay_, second_dot_, race, starting_time]
         elif k_ == 'x=0':
             while race > 0:
                 self.change(num, napr_, race, k_, 1)
                 race = race - (time.time() - starting_time) / 120 * mu * g
-                self.dr_table()
+                # self.dr_table()
                 if abs(self.array[num][0] - second_dot_[0]) <= 5 and abs(self.array[num][1] - second_dot_[1]) <= 5:
                     if second_dot_[2] == 0:
-                        second_dor_new = self.find_perese('x=0', num, deltax_, -deltay_)
+                        second_dot_new = self.find_perese('x=0', num, deltax_, -deltay_)
                         napr_new = [napr_[0], -napr_[1]]
-                        self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+                        return ['x=0', napr_new, deltax_, -deltay_, second_dot_new, race, starting_time]
+                        # self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 1:
-                        second_dor_new = self.find_perese('x=0', num, -deltax_, deltay_)
+                        second_dot_new = self.find_perese('x=0', num, -deltax_, deltay_)
                         napr_new = [-napr_[0], napr_[1]]
-                        self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
+                        return ['x=0', napr_new, -deltax_, deltay_, second_dot_new, race, starting_time]
+                        # self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 2:
-                        second_dor_new = self.find_perese('x=0', num, deltax_, -deltay_)
+                        second_dot_new = self.find_perese('x=0', num, deltax_, -deltay_)
                         napr_new = [napr_[0], -napr_[1]]
-                        self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
+                        return ['x=0', napr_new, deltax_, -deltay_, second_dot_new, race, starting_time]
+                        # self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 3:
                         second_dot_new = self.find_perese('x=0', num, -deltax_, deltay_)
                         napr_new = [-napr_[0], napr_[1]]
-                        self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dot_new, 1, race, starting_time)
+                        return ['x=0', napr_new, -deltax_, deltay_, second_dot_new, race, starting_time]
+                        # self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dot_new, 1, race, starting_time)
                     elif second_dot_[2] == -1:
-                        pass
+                        return self.new_k(second_dot_, 'x=0', deltax_, deltay_, num, napr_, race, starting_time)
                     break
                     return
-
-
-
-
-
-
-
-
+                return ['x=0', napr_, deltax_, deltay_, second_dot_, race, starting_time]
 
 
     def game(self):
@@ -594,6 +701,7 @@ class Table:
                             else:
                                 if pos[0] <= elem[0] + self.ball_size // 2 and elem[0] - self.ball_size // 2 <= pos[0] and pos[1] <= elem[1] + self.ball_size // 2 and elem[1] - self.ball_size // 2 <= pos[1]:
                                     self.chousen(i - 1)
+            self.dr_table()
                                     # while not pressed[0]:
 
                                     # xelem = elem[0] + random.randint(-100, 100)
@@ -738,7 +846,41 @@ class Table:
         self.dr_table()
         self.game()
 
-
+    # def moving(self, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
+    def help1(self, num, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
+        match num + 1:
+            case 1:
+                self.b_1.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 2:
+                self.b_2.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 3:
+                self.b_3.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 4:
+                self.b_4.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 5:
+                self.b_5.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 6:
+                self.b_6.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 7:
+                self.b_7.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 8:
+                self.b_8.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 9:
+                self.b_9.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 10:
+                self.b_10.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 11:
+                self.b_11.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 12:
+                self.b_12.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 13:
+                self.b_13.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 14:
+                self.b_14.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 15:
+                self.b_15.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
+            case 16:
+                self.b_16.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
 
     def dr_table(self):
         if self.window_size[0] > self.window_size[1]:
@@ -790,6 +932,20 @@ class Table:
             self.table_size = [e + 2.5 * (sq // 8), sq // 8 + 6 * (sq // 8) , e + 2.5 * (sq // 8) + 3 * (sq // 8),
                                (sq // 8)]
         self.array = self.comm_ball()
+        for i in range(len(self.array)):
+            print('__-__', self.array[15])
+            if self.array[i][4] == 1:
+                if self.array[i][8] <= 0:
+                    # self.array[i][4] = 0
+                    self.help1(i, 0,0,0,0,0,0,0,0)
+                    # def moving(self, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
+                else:
+                    w = self.move(i, self.array[i][8], self.array[i][5],  self.array[i][6], self.array[i][9], self.array[i][10], self.array[i][7], self.array[i][11])
+                    self.help1(i, 1, w[0], w[5], w[1], w[2], w[3], w[4], w[6])
+                    # ['x=0', napr_, deltax_, deltay_, second_dot_, race, starting_time]
+        #             ['x=0', napr_, deltax_, deltay_, second_dot_, race, starting_time]
+        #  def help1(self, num, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
+        #     def move(self, num, k_, mul_, napr_, deltax_, deltay_, second_dot_, type, st_r=0, st_time=0):
         pygame.display.flip()
         self.clock.tick(FPS)
 
@@ -811,18 +967,38 @@ class Ball:
         self.color = color
         self.window_size = window_size
         self.state = True # in game
+        self.move = 0
+        self.k = None
+        self.ar = [0, 0]
+        self.second = [0, 0]
+        self.race = 0
+        self.deltax = 0
+        self.deltay = 0
+        self.time = 0
         # self.move()
 
     def koo(self):
         if self.state:
-            return (self.x, self.y, self.color, self.state)
+            return (self.x, self.y, self.color, self.state, self.move, self.k, self.ar, self.second, self.race, self.deltax, self.deltay, self.time)
         else:
-            return (0,0, self.color, self.state)
+            return (0,0, self.color, 0, 0, self.k, self.ar, self.second, self.race, self.deltax, self.deltay, self.time)
 
     def koo_in(self, x, y):
         self.x = x
         self.y = y
 
+    def moving(self, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
+        self.move = move
+        self.k = k_
+        self.race = race
+        self.ar = napr_
+        self.deltax = deltax_
+        self.deltay = deltay_
+        self.second = second_dot
+        self.time = t
+
+
+# self.move(num, k_, mul_, napr_, deltax_, deltay_, second_dot, 0)
 
 
 if __name__ == '__main__':
