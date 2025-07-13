@@ -354,24 +354,27 @@ class Table:
                 alphax = atan(n)
                 x = alphax - alpha
                 if n < 0:
-                    if abs(deltay_) <= abs(deltax_):
+                    if k <= k_:
                         napr_new_0 = [-1, 1]
+                        print(11)
                     else:
                         napr_new_0 = [1, -1]
+                        print(12)
                 elif n > 0:
                     napr_new_0 = [1, 1]
+                    print(13)
             elif napr_[0] == 1 and napr_[1] == -1:
                 k = deltay / deltax
                 n = - 1 / k
                 alpha = atan(k_ * napr_[0] * napr_[1])
                 alphax = atan(n)
                 x = alphax - alpha
-                if n < 0:
-                    if abs(deltay_) <= abs(deltax_):
-                        napr_new_0 = [1, -1]
+                if n > 0:
+                    if abs(k) <= abs(k_):
+                        napr_new_0 = [-1, -1]
                     else:
-                        napr_new_0 = [-1, 1]
-                elif n > 0:
+                        napr_new_0 = [1, 1]
+                elif n < 0:
                     napr_new_0 = [1, -1]
             elif napr_[0] == -1 and napr_[1] == 1:
                 k = deltay / deltax
@@ -379,12 +382,12 @@ class Table:
                 alpha = atan(k_ * napr_[0] * napr_[1])
                 alphax = atan(n)
                 x = alphax - alpha
-                if n < 0:
-                    if abs(deltay_) <= abs(deltax_):
-                        napr_new_0 = [-1, 1]
+                if n > 0:
+                    if abs(k) <= abs(k_):
+                        napr_new_0 = [1, 1]
                     else:
-                        napr_new_0 = [1, -1]
-                elif n > 0:
+                        napr_new_0 = [-1, -1]
+                elif n < 0:
                     napr_new_0 = [-1, 1]
             elif napr_[0] == -1 and napr_[1] == -1:
                 k = deltay / deltax
@@ -393,10 +396,10 @@ class Table:
                 alphax = atan(n)
                 x = alphax - alpha
                 if n < 0:
-                    if abs(deltay_) <= abs(deltax_):
-                        napr_new_0 = [-1, 1]
-                    else:
+                    if abs(k) <= abs(k_):
                         napr_new_0 = [1, -1]
+                    else:
+                        napr_new_0 = [-1, 1]
                 elif n > 0:
                     napr_new_0 = [-1, -1]
             r0 = r * abs(sin(x))
@@ -406,11 +409,13 @@ class Table:
             second_dot_new_1 = self.find_perese(k, number, napr_new_1[0], napr_new_1[1])
             # def help1(self, num, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
             self.help1(number, 1, k, r1, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
-            return [n, napr_new_0, -deltax, -deltay, second_dot_new_0, r0, t]
+            print(second_dot_new_0, second_dot_new_1, k_, k, n, deltax, deltay)
+            return [n, napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, r0, t]
             # ['x=0', napr_, deltax_, deltay_, second_dot_, race, starting_time]
             #self.move(num, n, 4, napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, 2, r * cos(abs(x)), t)
             #self.move(number, k, 4, napr_new_1, napr_new_1[0], napr_new_1[1], second_dot_new_1, 3, r * sin(abs(x)))
             # self.move2(num, n, napr_new_0, deltax, deltay, second_dot_new_0, r0, t, number, k, napr_new_1, deltax, deltay, second_dot_new_1, r1, 0)
+
         elif deltay == 0:
             if k_ == 0:
                 napr_new_1 = [pow(-1, deltax < 0), pow(-1, deltay < 0)]
@@ -623,8 +628,8 @@ class Table:
                 self.change(num, napr_, race, k_, 0)
                 race = race - (time.time() - starting_time) / 120 * mu * g
                 # self.dr_table()
-                print(self.array[num])
-                if abs(self.array[num][0] - second_dot_[0]) <= 5 and abs(self.array[num][1] - second_dot_[1]) <= 5:
+                # print(self.array[num])
+                if abs(self.array[num][0] - second_dot_[0]) <= 3 and abs(self.array[num][1] - second_dot_[1]) <= 3:
                     print(33333333333333333333)
                     if second_dot_[2] == 0:
                         second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
@@ -933,7 +938,7 @@ class Table:
                                (sq // 8)]
         self.array = self.comm_ball()
         for i in range(len(self.array)):
-            print('__-__', self.array[15])
+            # print('__-__', self.array[15])
             if self.array[i][4] == 1:
                 if self.array[i][8] <= 0:
                     # self.array[i][4] = 0
