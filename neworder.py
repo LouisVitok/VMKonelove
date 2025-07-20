@@ -1,6 +1,7 @@
 import pygame
 from math import pi, sqrt, atan, sin, cos, acos, tan
 import time
+pygame.font.init()
 
 FPS = 120
 
@@ -22,6 +23,7 @@ class Table:
         self.b_2 = None
         self.b_1 = None
         self.b_5 = None
+        self.score=0
         # self.balls = [self.b_1, self.b_2, self.b_3, self.b_4, self.b_5, self.b_6, self.b_7, self.b_8, self.b_9, self.b_10, self.b_11, self.b_12, self.b_13, self.b_14, self.b_15, self.b_16]
         self.sq = min(window_size[0], window_size[1])
         self.ball_size = (6 * (sq // 8)) // 52
@@ -305,7 +307,7 @@ class Table:
             print(second_dot)
             napr_ = [pow(-1, deltax_ < 0), pow(-1, deltay_ < 0)]
         # self.move(num, k_, mul_, napr_, deltax_, deltay_, second_dot, 0)
-        race = 20 * self.ball_size * mul_
+        race = 15 * self.ball_size * mul_
         match num + 1:
             case 1:
                 self.b_1.moving(1, k_, race, napr_, deltax_, deltay_, second_dot, time.time())
@@ -408,9 +410,11 @@ class Table:
             second_dot_new_0 = self.find_perese(n, num, napr_new_0[0], napr_new_0[1])
             second_dot_new_1 = self.find_perese(k, number, napr_new_1[0], napr_new_1[1])
             # def help1(self, num, move, k_, race, napr_, deltax_, deltay_, second_dot, t):
-            self.help1(number, 1, k, r1, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
-            print(second_dot_new_0, second_dot_new_1, k_, k, n, deltax, deltay)
-            return [n, napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, r0, t]
+            self.help1(number, 1, abs(k), r1, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
+            # print(number, 1, k, r1, napr_new_1, deltax, deltay, second_dot_new_1, time.time())
+            # print(second_dot_new_0, second_dot_new_1, k_, k, n, deltax, deltay)
+            print([n, napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, r0, t])
+            return [abs(n), napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, r0, t]
             # ['x=0', napr_, deltax_, deltay_, second_dot_, race, starting_time]
             #self.move(num, n, 4, napr_new_0, napr_new_0[0], napr_new_0[1], second_dot_new_0, 2, r * cos(abs(x)), t)
             #self.move(number, k, 4, napr_new_1, napr_new_1[0], napr_new_1[1], second_dot_new_1, 3, r * sin(abs(x)))
@@ -632,21 +636,33 @@ class Table:
                 if abs(self.array[num][0] - second_dot_[0]) <= 3 and abs(self.array[num][1] - second_dot_[1]) <= 3:
                     print(33333333333333333333)
                     if second_dot_[2] == 0:
+                        if second_dot_[0] <= self.table_size[3] + self.ball_size or second_dot_[0] >= self.table_size[1] - self.ball_size:
+                            self.help2(num)
+                            return [0, 0, 0, 0, 0, 0, 0]
                         second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
                         napr_new = [napr_[0], -napr_[1]]
                         return [k_, napr_new, deltax_, -deltay_, second_dot_new, race, starting_time]
                         # self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 1:
+                        if second_dot_[1] <= self.table_size[0] + self.ball_size or second_dot_[1] >= self.table_size[2] - self.ball_size:
+                            self.help2(num)
+                            return [0, 0, 0, 0, 0, 0, 0]
                         second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
                         napr_new = [-napr_[0], napr_[1]]
                         return [k_, napr_new, -deltax_, deltay_, second_dot_new, race, starting_time]
                         # self.move(num, k_, mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 2:
+                        if second_dot_[0] <= self.table_size[3] + self.ball_size or second_dot_[0] >= self.table_size[1] - self.ball_size:
+                            self.help2(num)
+                            return [0, 0, 0, 0, 0, 0, 0]
                         second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, deltax_, -deltay_)
                         napr_new = [napr_[0], -napr_[1]]
                         return [k_, napr_new, deltax_, -deltay_, second_dot_new, race, starting_time]
                         # self.move(num, k_, mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 3:
+                        if second_dot_[1] <= self.table_size[0] + self.ball_size or second_dot_[1] >= self.table_size[2] - self.ball_size:
+                            self.help2(num)
+                            return [0, 0, 0, 0, 0, 0, 0]
                         second_dot_new = self.find_perese(pow(-1, deltax_ * deltay_ > 0) * k_, num, -deltax_, deltay_)
                         napr_new = [-napr_[0], napr_[1]]
                         return [k_, napr_new, -deltax_, deltay_, second_dot_new, race, starting_time]
@@ -663,21 +679,33 @@ class Table:
                 # self.dr_table()
                 if abs(self.array[num][0] - second_dot_[0]) <= 5 and abs(self.array[num][1] - second_dot_[1]) <= 5:
                     if second_dot_[2] == 0:
+                        if second_dot_[0] <= self.table_size[3] + self.ball_size or second_dot_[0] >= self.table_size[1] - self.ball_size:
+                            self.help2(num)
+                            return [0, 0, 0, 0, 0, 0, 0]
                         second_dot_new = self.find_perese('x=0', num, deltax_, -deltay_)
                         napr_new = [napr_[0], -napr_[1]]
                         return ['x=0', napr_new, deltax_, -deltay_, second_dot_new, race, starting_time]
                         # self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 1:
+                        if second_dot_[1] <= self.table_size[0] + self.ball_size or second_dot_[1] >= self.table_size[2] - self.ball_size:
+                            self.help2(num)
+                            return [0, 0, 0, 0, 0, 0, 0]
                         second_dot_new = self.find_perese('x=0', num, -deltax_, deltay_)
                         napr_new = [-napr_[0], napr_[1]]
                         return ['x=0', napr_new, -deltax_, deltay_, second_dot_new, race, starting_time]
                         # self.move(num, 'x=0', mul_, napr_new, -deltax_, deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 2:
+                        if second_dot_[0] <= self.table_size[3] + self.ball_size or second_dot_[0] >= self.table_size[1] - self.ball_size:
+                            self.help2(num)
+                            return [0, 0, 0, 0, 0, 0, 0]
                         second_dot_new = self.find_perese('x=0', num, deltax_, -deltay_)
                         napr_new = [napr_[0], -napr_[1]]
                         return ['x=0', napr_new, deltax_, -deltay_, second_dot_new, race, starting_time]
                         # self.move(num, 'x=0', mul_, napr_new, deltax_, -deltay_, second_dor_new, 1, race, starting_time)
                     elif second_dot_[2] == 3:
+                        if second_dot_[1] <= self.table_size[0] + self.ball_size or second_dot_[1] >= self.table_size[2] - self.ball_size:
+                            self.help2(num)
+                            return [0, 0, 0, 0, 0, 0, 0]
                         second_dot_new = self.find_perese('x=0', num, -deltax_, deltay_)
                         napr_new = [-napr_[0], napr_[1]]
                         return ['x=0', napr_new, -deltax_, deltay_, second_dot_new, race, starting_time]
@@ -887,7 +915,62 @@ class Table:
             case 16:
                 self.b_16.moving(move, k_, race, napr_, deltax_, deltay_, second_dot, t)
 
+    def help2(self, num):
+        match num + 1:
+            case 1:
+                self.b_1.koo_in(0,0)
+                self.b_1.end()
+            case 2:
+                self.b_2.koo_in(0, 0)
+                self.b_2.end()
+            case 3:
+                self.b_3.koo_in(0, 0)
+                self.b_3.end()
+            case 4:
+                self.b_4.koo_in(0, 0)
+                self.b_4.end()
+            case 5:
+                self.b_5.koo_in(0, 0)
+                self.b_5.end()
+            case 6:
+                self.b_6.koo_in(0, 0)
+                self.b_6.end()
+            case 7:
+                self.b_7.koo_in(0, 0)
+                self.b_7.end()
+            case 8:
+                self.b_8.koo_in(0, 0)
+                self.b_8.end()
+            case 9:
+                self.b_9.koo_in(0, 0)
+                self.b_9.end()
+            case 10:
+                self.b_10.koo_in(0, 0)
+                self.b_10.end()
+            case 11:
+                self.b_11.koo_in(0, 0)
+                self.b_11.end()
+            case 12:
+                self.b_12.koo_in(0, 0)
+                self.b_12.end()
+            case 13:
+                self.b_13.koo_in(0, 0)
+                self.b_13.end()
+            case 14:
+                self.b_14.koo_in(0, 0)
+                self.b_14.end()
+            case 15:
+                self.b_15.koo_in(0, 0)
+                self.b_15.end()
+            case 16:
+                self.b_16.koo_in(0, 0)
+                self.b_16.end()
+
     def dr_table(self):
+        background_color = (0, 0, 255)  # синий
+
+        # заполняем фон заданным цветом
+        screen.fill(background_color)
         if self.window_size[0] > self.window_size[1]:
             t = 1
         else:
@@ -926,17 +1009,40 @@ class Table:
                              (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8), self.ball_size + 10, 3 * (sq // 8)))
 
             pygame.draw.circle(self.screen, (12, 186, 22), (sq // 8, e + 2.5 * (sq // 8)), self.ball_size + 10)
+            # pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8, e + 2.5 * (sq // 8)), self.ball_size + 4)
             pygame.draw.circle(self.screen, (12, 186, 22),
                                (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8)), self.ball_size + 10)
+            # pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8)), self.ball_size + 4)
             pygame.draw.circle(self.screen, (12, 186, 22),
                                (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8) + 3 * (sq // 8)), self.ball_size + 10)
+            # pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8) + 3 * (sq // 8)), self.ball_size + 4)
             pygame.draw.circle(self.screen, (12, 186, 22),
                                (sq // 8, e + 2.5 * (sq // 8) + 3 * (sq // 8)), self.ball_size + 10)
+            # pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8, e + 2.5 * (sq // 8) + 3 * (sq // 8)), self.ball_size + 4)
 
             pygame.draw.rect(self.screen, (0, 255, 0), (sq // 8, e + 2.5 * (sq // 8), 6 * (sq // 8), 3 * (sq // 8)))
+
+            # pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8, e + 2.5 * (sq // 8)), self.ball_size + 4)
+            # pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8)),
+            #                    self.ball_size + 4)
+            # pygame.draw.circle(self.screen, (120, 120, 10),
+            #                    (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8) + 3 * (sq // 8)), self.ball_size + 4)
+            # pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8, e + 2.5 * (sq // 8) + 3 * (sq // 8)),
+            #                    self.ball_size + 4)
+            pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8, e + 2.5 * (sq // 8)), self.ball_size)
+            pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8)),
+                               self.ball_size)
+            pygame.draw.circle(self.screen, (120, 120, 10),
+                               (sq // 8 + 6 * (sq // 8), e + 2.5 * (sq // 8) + 3 * (sq // 8)), self.ball_size)
+            pygame.draw.circle(self.screen, (120, 120, 10), (sq // 8, e + 2.5 * (sq // 8) + 3 * (sq // 8)),
+                               self.ball_size)
             self.table_size = [e + 2.5 * (sq // 8), sq // 8 + 6 * (sq // 8) , e + 2.5 * (sq // 8) + 3 * (sq // 8),
                                (sq // 8)]
         self.array = self.comm_ball()
+        self.score = 16 - len([x for x in self.array if x[3] == 1])
+        f1 = pygame.font.Font(None, 36)
+        text1 = f1.render(f'SCORE:{self.score}', True, (180, 0, 0))
+        self.screen.blit(text1, (10, 50))
         for i in range(len(self.array)):
             # print('__-__', self.array[15])
             if self.array[i][4] == 1:
@@ -1002,6 +1108,9 @@ class Ball:
         self.second = second_dot
         self.time = t
 
+    def end(self):
+        self.state = False
+
 
 # self.move(num, k_, mul_, napr_, deltax_, deltay_, second_dot, 0)
 
@@ -1011,10 +1120,10 @@ if __name__ == '__main__':
     window_size = (700, 700)
     pygame.display.set_caption("Бильярдный стол")
     screen = pygame.display.set_mode(window_size)
-    background_color = (0, 0, 255)  # синий
-
-    # заполняем фон заданным цветом
-    screen.fill(background_color)
+    # background_color = (0, 0, 255)  # синий
+    #
+    # # заполняем фон заданным цветом
+    # screen.fill(background_color)
     sq = min(window_size[0], window_size[1])
     ball_size = (6 * (sq // 8)) // 52
 
